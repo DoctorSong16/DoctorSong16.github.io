@@ -1,12 +1,25 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Almendra, Ibarra_Real_Nova } from "next/font/google";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
+// const almendra = Almendra({
+//   subsets: ["latin"],
+//   variable: "--font-almendra",
+//   weight: ["400", "700"],
+// })
+
+const ibarraRealNova = Ibarra_Real_Nova({
+  subsets: ["latin"],
+  variable: "--font-ibarra-real-nova",
+  weight: ["400", "700"],
+})
+
+// const geistSans = localFont({
+//   src: "./fonts/GeistVF.woff",
+//   variable: "--font-geist-sans",
+//   weight: "100 900",
+// });
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -26,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${ibarraRealNova.variable} ${geistMono.variable} antialiased bg-maize`}
       >
         {children}
       </body>
