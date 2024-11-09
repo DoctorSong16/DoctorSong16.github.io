@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Almendra, Ibarra_Real_Nova } from "next/font/google";
+import { Ibarra_Real_Nova } from "next/font/google";
 
 // const almendra = Almendra({
 //   subsets: ["latin"],
