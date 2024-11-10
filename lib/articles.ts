@@ -1,6 +1,7 @@
 import type { ArticleItem } from "@/types";
 import fs from "fs";
 import matter from "gray-matter";
+import moment from "moment";
 import path from "path";
 // import { remark } from "remark";
 // import html from "remark-html";
@@ -9,7 +10,7 @@ const articleDirectory = "./articles";
 
 // Returns a list of all articles sorted by date.
 // Files are in .md format.
-export async function getAllArticles(): Promise<ArticleItem[]> {
+export async function getSortedArticles(): Promise<ArticleItem[]> {
     // Get all file names in the articles directory.
     const articleFileNames = fs.readdirSync(articleDirectory);
    
@@ -31,10 +32,32 @@ export async function getAllArticles(): Promise<ArticleItem[]> {
 
     // Sort articles by date.
     return articleData.sort((a, b) => {
-        if (a.date < b.date) {
-            return 1;
-        } else {
+        const format = "DD-MM-YYYY";
+        const dateA = moment(a.date, format);
+        const dateB = moment(b.date, format);
+        if (dateA.isBefore(dateB)) {
             return -1;
+        } else {
+            return 1;
         }
     });
+}
+
+// Returns a list of articles by category.
+export async function getArticlesByCategory(): Promise<Record<string, ArticleItem[]>> {
+    // Get all articles.
+    const articles = await getSortedArticles();
+    // Create a dictionary to store articles by category.
+    const articlesByCategory: Record<string, ArticleItem[]> = {};
+
+    // For each article, add it to the corresponding category.
+    articles.forEach((article) => {
+        if (articlesByCategory[article.category]) {
+            articlesByCategory[article.category].push(article);
+        } else {
+            articlesByCategory[article.category] = [article];
+        }
+    });
+
+    return articlesByCategory;
 }
