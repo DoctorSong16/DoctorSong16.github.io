@@ -11,10 +11,10 @@ export default function Navbar(props: Props) {
   return (
     <nav className="bg-maize font-ibarraRealNova">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="https://doctorsong16.github.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
+        {/* <a href="https://doctorsong16.github.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
             <span className="self-center font-semibold text-2xl text-smoky-black font-ibarraRealNova whitespace-nowrap">dundu does stuff</span>
-        </a>
+        </a> */}
         {/* Button to open the menu on mobile.*/}
         <button className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden' type='button'>
             <IoMdMenu className='text-smoky-black text-2xl' />
