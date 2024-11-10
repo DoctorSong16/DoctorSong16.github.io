@@ -7,6 +7,6 @@ type Props = {
 
 export default function PostPreviewCard(props: Props) {
   return (
-    <div>PostPreviewCard</div>
+    <div>PostPreviewCard - {props.postData.id}</div>
   )
 }
