@@ -10,7 +10,7 @@ const articleDirectory = "./articles";
 
 // Returns a list of all articles sorted by date.
 // Files are in .md format.
-export async function getSortedArticles(): Promise<ArticleItem[]> {
+export function getSortedArticles(): ArticleItem[] {
     // Get all file names in the articles directory.
     const articleFileNames = fs.readdirSync(articleDirectory);
    
@@ -44,9 +44,9 @@ export async function getSortedArticles(): Promise<ArticleItem[]> {
 }
 
 // Returns a list of articles by category.
-export async function getArticlesByCategory(): Promise<Record<string, ArticleItem[]>> {
+export function getArticlesByCategory(): Record<string, ArticleItem[]> {
     // Get all articles.
-    const articles = await getSortedArticles();
+    const articles = getSortedArticles();
     // Create a dictionary to store articles by category.
     const articlesByCategory: Record<string, ArticleItem[]> = {};
 

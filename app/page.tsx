@@ -1,21 +1,51 @@
+// 'use client'
 import Content from '@/components/Content'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
-import React from 'react'
+import { getSortedArticles } from '@/lib/articles'
+// import { getArticlesByCategory } from '@/lib/articles'
+// import { ArticleItem } from '@/types'
+// import { GetStaticProps, InferGetStaticPropsType } from 'next'
 
 // type Props = {
-//   name: string
+//   menuItems: string[];
+//   currentPage: string;
+//   articles: Record<string, ArticleItem[]>;
 // }
 
-const HomePage = () => {
+// export async function generateStaticParams() {
+//   const articles = await getArticlesByCategory();
+//   const menuItems = ["Home", "Blog"];
+//   return {
+//     props: {
+//       menuItems,
+//       currentPage: menuItems[0],
+//       articles
+//     } as Props
+//   }
+// }
+
+export default function HomePage() {
+  const sortedPosts = getSortedArticles();
   return (
     <>
-    <Navbar menuItems={["Home", "Blog"]} currentPage='Home'/>
-    <Content />
+    <Navbar menuItems={["Home", "Blog"]} currentPage={"Home"}/>
+    <Content postData={sortedPosts}/>
     <Footer name="dundu does stuff" year={2024}/>
     </>
   )
 }
+
+// const HomePage = (props: Props) => {
+
+//   return (
+//     <>
+//     <Navbar menuItems={["Home", "Blog"]} currentPage='Home'/>
+//     <Content />
+//     <Footer name="dundu does stuff" year={2024}/>
+//     </>
+//   )
+// }
 
 // const HomePage = () => {
 //   return (
@@ -30,4 +60,4 @@ const HomePage = () => {
 //   )
 // }
 
-export default HomePage
+// export default HomePage
