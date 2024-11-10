@@ -1,3 +1,5 @@
+import Content from '@/components/Content'
+import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import React from 'react'
 
@@ -7,7 +9,11 @@ import React from 'react'
 
 const HomePage = () => {
   return (
+    <>
     <Navbar menuItems={["Home", "Blog"]} currentPage='Home'/>
+    <Content />
+    <Footer name="dundu does stuff" year={2024}/>
+    </>
   )
 }
 

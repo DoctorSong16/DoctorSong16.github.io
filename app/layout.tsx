@@ -39,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${ibarraRealNova.variable} ${geistMono.variable} antialiased bg-maize`}
+        className={`${ibarraRealNova.variable} ${geistMono.variable} min-h-screen antialiased bg-maize`}
       >
         {children}
       </body>
