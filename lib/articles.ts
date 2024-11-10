@@ -27,6 +27,7 @@ export function getSortedArticles(): ArticleItem[] {
             title: matterResult.data.title,
             category: matterResult.data.category,
             date: matterResult.data.date,
+            summary: matterResult.data.summary,
         };
     });
 

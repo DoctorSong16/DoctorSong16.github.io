@@ -36,7 +36,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+  return ( 
     <html lang="en">
       <body
         className={`${ibarraRealNova.variable} ${geistMono.variable} min-h-screen antialiased bg-maize`}
