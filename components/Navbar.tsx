@@ -41,6 +41,17 @@ export default function Navbar(props: Props) {
             </ul>
         </div>
 
+        {/* TODO: On mobile, we use a collapsible menu. */}
+        <div className={`w-full md:hidden ${isOpen ? 'block' : 'hidden'}`} id="navbar-mobile">
+            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg shadow-inner md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
+                {props.menuItems.map((item) => (
+                    <li key={item}>
+                        <a href="#" className="text-2xl hover:font-semibold block py-2 px-3 rounded md:p-0" aria-current="page"> {item.toLocaleLowerCase()} </a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
       </div>
     </nav>
   )
