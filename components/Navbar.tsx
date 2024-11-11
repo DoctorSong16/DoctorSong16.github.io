@@ -1,3 +1,4 @@
+'use client';
 import React from 'react'
 import { IoMdMenu } from "react-icons/io";
 // import Image from 'next/image'
@@ -8,6 +9,15 @@ type Props = {
 }
 
 export default function Navbar(props: Props) {
+  // State for the mobile menu
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  // Function to toggle the mobile menu
+  const toggleMenu = () => {
+    console.log("Toggling menu");
+    setIsOpen(!isOpen);
+  }
+
   return (
     <nav className="bg-maize font-ibarraRealNova">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -16,7 +26,7 @@ export default function Navbar(props: Props) {
             <span className="self-center font-semibold text-2xl text-smoky-black font-ibarraRealNova whitespace-nowrap">dundu does stuff</span>
         </a>
         {/* Button to open the menu on mobile.*/}
-        <button className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden' type='button'>
+        <button onClick={toggleMenu} className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden' type='button'>
             <IoMdMenu className='text-smoky-black text-2xl' />
         </button>
 
@@ -30,9 +40,7 @@ export default function Navbar(props: Props) {
                 ))}
             </ul>
         </div>
-        {/* {props.menuItems.map((item) => (
-            <button key={item} className="p-2 rounded-md bg-maize text-smoky-black">{item}</button>
-        ))} */}
+
       </div>
     </nav>
   )
