@@ -1,6 +1,5 @@
 // 'use client'
 import Content from '@/app/ui/Content'
-import Footer from '@/app/ui/Footer'
 import { getSortedArticles } from '@/app/lib/articles'
 // import { getArticlesByCategory } from '@/lib/articles'
 // import { ArticleItem } from '@/types'
