@@ -25,11 +25,19 @@ import { getSortedArticles } from '@/app/lib/articles'
 //   }
 // }
 
+// Menu items as an array of Record<string, string>
+const menuItems = [
+  {name: "Home", path: "/"},
+  {name: "Blog", path: "/post"},
+  {name: "About", path: "/about"},
+  {name: "Contact", path: "/contact"}
+]
+
 export default function HomePage() {
   const sortedPosts = getSortedArticles();
   return (
     <>
-    <Navbar menuItems={["Home", "Blog"]} currentPage={"Home"}/>
+    <Navbar menuItems={menuItems} currentPage={"Home"}/>
     <Content postData={sortedPosts}/>
     <Footer name="dundu does stuff" year={2024}/>
     </>

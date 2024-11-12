@@ -4,7 +4,7 @@ import { IoMdMenu } from "react-icons/io";
 // import Image from 'next/image'
 
 type Props = {
-    menuItems: string[];
+    menuItems: Record<string, string>[];
     currentPage: string;
 }
 
@@ -34,8 +34,8 @@ export default function Navbar(props: Props) {
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                 {props.menuItems.map((item) => (
-                    <li key={item}>
-                        <a href="#" className="text-2xl hover:font-semibold block py-2 px-3 rounded md:p-0" aria-current="page"> {item.toLocaleLowerCase()} </a>
+                    <li key={item.name} className='p-2 hover:rounded-md hover:shadow-inner'>
+                        <a href={item.path} className="text-2xl hover:font-semibold block py-2 px-3 rounded md:p-0" aria-current="page"> {item.name.toLocaleLowerCase()} </a>
                     </li>
                 ))}
             </ul>
@@ -45,8 +45,8 @@ export default function Navbar(props: Props) {
         <div className={`w-full md:hidden ${isOpen ? 'block' : 'hidden'}`} id="navbar-mobile">
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg shadow-inner md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                 {props.menuItems.map((item) => (
-                    <li key={item}>
-                        <a href="#" className="text-2xl hover:font-semibold block py-2 px-3 rounded md:p-0" aria-current="page"> {item.toLocaleLowerCase()} </a>
+                    <li key={item.name}>
+                        <a href={item.path} className="text-2xl hover:font-semibold block py-2 px-3 rounded md:p-0" aria-current="page"> {item.name.toLocaleLowerCase()} </a>
                     </li>
                 ))}
             </ul>
