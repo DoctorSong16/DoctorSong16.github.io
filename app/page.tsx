@@ -2,7 +2,7 @@
 import Content from '@/app/ui/Content'
 import Footer from '@/app/ui/Footer'
 import Navbar from '@/app/ui/Navbar'
-import { getSortedArticles } from '@/lib/articles'
+import { getSortedArticles } from '@/app/lib/articles'
 // import { getArticlesByCategory } from '@/lib/articles'
 // import { ArticleItem } from '@/types'
 // import { GetStaticProps, InferGetStaticPropsType } from 'next'
