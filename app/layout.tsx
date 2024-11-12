@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Ibarra_Real_Nova } from "next/font/google";
 import Navbar from "./ui/Navbar";
+import Footer from "./ui/Footer";
 
 // const almendra = Almendra({
 //   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({
       >
         <Navbar menuItems={menuItems} currentPage={"Home"}/>
         {children}
+        <Footer name="dundu does stuff" year={2024}/>
       </body>
     </html>
   );

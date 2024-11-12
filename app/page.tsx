@@ -29,7 +29,6 @@ export default function HomePage() {
   return (
     <>
     <Content postData={sortedPosts}/>
-    <Footer name="dundu does stuff" year={2024}/>
     </>
   )
 }

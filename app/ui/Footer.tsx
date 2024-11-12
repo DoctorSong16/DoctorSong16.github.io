@@ -10,7 +10,7 @@ export default function Footer(props: Props) {
     <footer className="bg-maize font-ibarraRealNova">
       <div className="max-w-screen-xl mx-auto p-4">
         <p className="text-smoky-black text-center">
-          &copy; {props.year} {props.name} All rights reserved.
+          &copy; {props.year} {props.name}. all rights reserved.
         </p>
       </div>
     </footer>
