@@ -1,4 +1,4 @@
-import { ArticleItem } from '@/types'
+import { ArticleItem } from '@/app/types'
 import React from 'react'
 import PostPreviewCard from './PostPreviewCard';
 
