@@ -2,6 +2,7 @@ import { ArticleItem } from '@/types'
 import React from 'react'
 import PostPreviewCard from './PostPreviewCard';
 
+
 type Props = {
     postData: ArticleItem[];
 }
