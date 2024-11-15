@@ -27,7 +27,7 @@ export default function Navbar(props: Props) {
         </a>
         {/* Button to open the menu on mobile.*/}
         <button onClick={toggleMenu} className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden' type='button'>
-            <IoMdMenu className='text-smoky-black text-2xl' />
+            <IoMdMenu className='text-foreground text-2xl' />
         </button>
 
         {/* On desktop, we just use a navbar. */}

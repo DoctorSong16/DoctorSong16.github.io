@@ -4,11 +4,11 @@ import React from 'react'
 
 export default function LandingPage() {
   return (
-    <div className='flex flex-row flex-wrap max-w-screen-xl mx-auto font-ibarraRealNova'>
-        <div className='w-1/2 max-h-screen'>
+    <div className='flex flex-col md:flex-row flex-wrap max-w-screen-xl mx-auto font-ibarraRealNova items-center'>
+        <div className='w-11/12 md:w-1/2 max-h-screen'>
             <img src="/dundu.jpeg" className='object-contain m-2 shadow-lg border-8 border-foreground rounded-[24px]' alt="dundu" />
         </div>
-        <div className='w-1/2 h-10 flex flex-col p-8'>
+        <div className='w-11/12 md:w-1/2 flex flex-col p-8'>
             <h1 className='text-4xl'>
                 Hi!, I&apos;m Pratibha
             </h1>
