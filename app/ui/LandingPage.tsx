@@ -1,10 +1,10 @@
 import React from 'react'
 
-// type Props = {}
+// type Props = {}  
 
 export default function LandingPage() {
   return (
-    <div className='flex flex-col md:flex-row flex-wrap max-w-screen-xl mx-auto font-ibarraRealNova items-center'>
+    <div className='flex flex-col md:flex-row flex-wrap max-w-screen-xl mx-auto font-ibarraRealNova items-center md:px-2'>
         <div className='w-11/12 md:w-1/2 max-h-screen'>
             <img src="/dundu.jpeg" className='object-contain m-2 shadow-lg border-8 border-foreground rounded-[24px]' alt="dundu" />
         </div>
