@@ -1,7 +1,7 @@
 'use client';
 import React from 'react'
 import { IoMdMenu } from "react-icons/io";
-import { FaMoon, FaSun } from 'react-icons/fa6';
+// import { FaMoon, FaSun } from 'react-icons/fa6';
 // import Image from 'next/image'
 
 type Props = {
@@ -12,8 +12,6 @@ type Props = {
 export default function Navbar(props: Props) {
   // State for the mobile menu
   const [isOpen, setIsOpen] = React.useState(false);
-  // State for the theme
-  const [theme, setTheme] = React.useState('light');
 
   // Function to toggle the mobile menu
   const toggleMenu = () => {
@@ -30,9 +28,9 @@ export default function Navbar(props: Props) {
         </a>
 
         {/* Light Mode / Dark Mode Toggle */}
-        <button className="p-2 rounded-lg hover:border-4 ml-auto mr-8" type="button" onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        {/* <button className="p-2 rounded-lg hover:border-4 ml-auto mr-8" type="button" onClick={() => setDarkLight(theme === 'light' ? 'dark' : 'light')}>
             {theme === 'light' ? <FaMoon className="text-foreground text-2xl" /> : <FaSun className="text-foreground text-2xl" />}
-        </button>
+        </button> */}
 
         {/* Button to open the menu on mobile.*/}
         <button onClick={toggleMenu} className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden' type='button'>
