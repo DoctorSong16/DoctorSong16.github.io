@@ -42,7 +42,7 @@ export default function Navbar(props: Props) {
             <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
                 {props.menuItems.map((item) => (
                     <li key={item.name} className='p-2 hover:rounded-md hover:shadow-inner'>
-                        <a href={item.path} className="text-2xl hover:font-semibold block py-2 px-3 rounded md:p-0" aria-current="page"> {item.name.toLocaleLowerCase()} </a>
+                        <a href={item.path} className="text-2xl block py-2 px-3 rounded md:p-0" aria-current="page"> {item.name.toLocaleLowerCase()} </a>
                     </li>
                 ))}
             </ul>
