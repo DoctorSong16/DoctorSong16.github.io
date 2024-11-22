@@ -1,6 +1,6 @@
 'use client';
 import React from 'react'
-import { IoMdMenu } from "react-icons/io";
+import { IoMdMenu, IoMdClose } from "react-icons/io";
 // import { FaMoon, FaSun } from 'react-icons/fa6';
 // import Image from 'next/image'
 
@@ -34,7 +34,7 @@ export default function Navbar(props: Props) {
 
         {/* Button to open the menu on mobile.*/}
         <button onClick={toggleMenu} className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden' type='button'>
-            <IoMdMenu className='text-foreground text-2xl' />
+            {isOpen ? <IoMdClose className='text-foreground text-2xl' /> : <IoMdMenu className='text-foreground text-2xl' />}
         </button>
 
         {/* On desktop, we just use a navbar. */}
