@@ -62,3 +62,19 @@ export function getArticlesByCategory(): Record<string, ArticleItem[]> {
 
     return articlesByCategory;
 }
+
+// Returns the content of a specific article by slug/id.
+export function getArticleData(id: string): ArticleItem {
+    const fullPath = path.join(articleDirectory, `${id}.md`);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+
+    const matterResult = matter(fileContents);
+
+    return {
+        id,
+        title: matterResult.data.title,
+        category: matterResult.data.category,
+        date: matterResult.data.date,
+        summary: matterResult.data.summary,
+    };
+}
