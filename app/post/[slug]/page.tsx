@@ -30,11 +30,10 @@ export default async function Page({
     const postData = getArticleData(postSlug);
     
     return (
-        <div>
-            <h1>{postData.id}</h1>
-            <h2>{postData.title}</h2>
-            <p>{postData.date}</p>
-            <p>{postData.content}</p>
+        <div className="flex p-4 flex-col text-foreground mx-auto max-w-screen-xl font-ibarraRealNova">
+            <h1 className='text-4xl text-center'>{postData.title}</h1>
+            <p className='text-center'>{postData.date}</p>
+            <p className='text-lg text-justify'>{postData.content}</p>
         </div>
     )
   }
