@@ -28,6 +28,7 @@ export function getSortedArticles(): ArticleItem[] {
             category: matterResult.data.category,
             date: matterResult.data.date,
             summary: matterResult.data.summary,
+            content: undefined,
         };
     });
 
@@ -76,5 +77,6 @@ export function getArticleData(id: string): ArticleItem {
         category: matterResult.data.category,
         date: matterResult.data.date,
         summary: matterResult.data.summary,
+        content: matterResult.content,
     };
 }

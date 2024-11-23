@@ -4,4 +4,5 @@ export type ArticleItem = {
     category: string;
     date: string;
     summary: string;
+    content: string | undefined;
 }

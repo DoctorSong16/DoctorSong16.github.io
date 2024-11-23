@@ -34,7 +34,7 @@ export default async function Page({
             <h1>{postData.id}</h1>
             <h2>{postData.title}</h2>
             <p>{postData.date}</p>
-            <p>{postData.summary}</p>
+            <p>{postData.content}</p>
         </div>
     )
   }
