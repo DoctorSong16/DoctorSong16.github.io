@@ -5,9 +5,13 @@ date: "2024-11-23"
 summary: "Lorem Ipsum"
 ---
 
+## Lorem Ipsum
+
 Lorem ipsum odor amet, consectetuer adipiscing elit. Sodales morbi volutpat montes et interdum nascetur placerat. Lacinia nam nec nunc nunc semper auctor. Suspendisse purus felis ad convallis maecenas. Condimentum justo semper curae, hendrerit augue elit dapibus lacinia. Nibh elit senectus erat duis montes habitasse. Cras turpis semper pellentesque rhoncus metus rhoncus varius.
 
-Platea quisque himenaeos consequat mattis torquent dignissim. Non vitae elit quis adipiscing curae elit metus vestibulum. Mi netus finibus eu rhoncus curabitur commodo at suscipit. Ornare morbi duis sem in etiam risus. Vulputate ac fames dictum sodales tempor donec senectus. Libero arcu lobortis nulla laoreet sed id justo. Ornare nibh hendrerit tempor mi metus nec ligula parturient justo. Vivamus ridiculus quisque lacus tincidunt curabitur interdum. Lacus dignissim egestas molestie ut volutpat pharetra. Est tortor elit litora, tincidunt integer congue lobortis.
+![Image](/cat.jpg)
+
+Platea quisque himenaeos consequat mattis torquent dignissim. Non vitae elit quis adipiscing curae elit metus vestibulum. Mi netus finibus eu rhoncus curabitur commodo at suscipit. Ornare morbi duis sem in etiam risus. Vulputate ac fames dictum sodales tempor donec senectus. Libero arcu lobortis nulla laoreet sed id justo. Ornare nibh hendrerit tempor mi metus nec ligula parturient justo. Vivamus ridiculus quisque lacus tincidunt curabitur interdum. Lacus dignissim egestas molestie ut volutpat pharetra. Est tortor elit litora, tincidunt integer congue [lobortis](/post/welcome-post).
 
 Faucibus mollis laoreet eget suspendisse cras ridiculus urna lectus. Etiam nostra fermentum nullam sit adipiscing quam nam turpis. Placerat pulvinar potenti; eget est nibh molestie ac. Per risus habitant volutpat arcu nisl ultricies. Eleifend phasellus lectus habitasse quis class nascetur auctor dis ipsum. Posuere himenaeos quam himenaeos litora suspendisse fringilla felis potenti.
 

@@ -32,10 +32,22 @@ export default async function Page({
     
     return (
         <div className="flex p-4 flex-col text-foreground mx-auto max-w-screen-xl font-ibarraRealNova">
-            <h1 className='text-4xl text-center'>{postData.title}</h1>
+            <h1 className='text-4xl text-center mt-12'>{postData.title}</h1>
             <p className='text-center p-4'>{postData.date}</p>
             <div className='text-lg text-justify'>
-                <Markdown>{postData.content}</Markdown>
+                <Markdown
+                    components={{
+                        h1: ({node, ...props}) => <h1 className='text-4xl font-semibold' {...props} />,
+                        h2: ({node, ...props}) => <h2 className='text-2xl font-semibold' {...props} />,
+                        h3: ({node, ...props}) => <h3 className='text-xl font-semibold' {...props} />,
+                        h4: ({node, ...props}) => <h4 className='text-lg font-semibold' {...props} />,
+                        h5: ({node, ...props}) => <h5 className='text-lg font-semibold' {...props} />,
+                        h6: ({node, ...props}) => <h6 className='text-lg font-semibold' {...props} />,
+                        p: ({node, ...props}) => <p className='text-lg mb-2' {...props} />,
+                        img: ({node, ...props}) => <img className='object-contain rounded-[24px] my-4' {...props} />
+                    }}>
+                    {postData.content}
+                </Markdown>
             </div>
         </div>
     )
