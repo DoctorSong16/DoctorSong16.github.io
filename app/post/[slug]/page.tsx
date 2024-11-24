@@ -44,7 +44,8 @@ export default async function Page({
                         h5: ({node, ...props}) => <h5 className='text-lg font-semibold' {...props} />,
                         h6: ({node, ...props}) => <h6 className='text-lg font-semibold' {...props} />,
                         p: ({node, ...props}) => <p className='text-lg mb-2' {...props} />,
-                        img: ({node, ...props}) => <img className='object-contain rounded-[24px] my-4' {...props} />
+                        img: ({node, ...props}) => <img className='object-contain rounded-[24px] my-4' {...props} />,
+                        a: ({node, ...props}) => <a className='text-blue-500 hover:underline' {...props} />
                     }}>
                     {postData.content}
                 </Markdown>
