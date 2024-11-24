@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 const menuItems = [
   {name: "Home", path: "/"},
   {name: "Blog", path: "/post"},
-  {name: "About", path: "/about"},
+  {name: "Stuff", path: "/stuff"},
   {name: "Contact", path: "/contact"}
 ]
 
