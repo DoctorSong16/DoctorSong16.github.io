@@ -12,6 +12,9 @@ export default function Footer(props: Props) {
         <p className="text-center">
           &copy; {props.year} {props.name}. all rights reserved.
         </p>
+        {/* <p className="text-center">
+          Made with ❤️ by Nextjs and Tailwindcss.
+        </p> */}
       </div>
     </footer>
   )
