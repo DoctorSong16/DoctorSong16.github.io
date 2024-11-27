@@ -1,6 +1,7 @@
 import { getArticleData, getSortedArticles } from '@/app/lib/articles';
 import React from 'react'
 import Markdown from 'react-markdown';
+import { IoIosLink } from "react-icons/io";
 
 // type Props = {
 //     slug: string;
@@ -31,9 +32,12 @@ export default async function Page({
     const postData = getArticleData(postSlug);
     
     return (
-        <div className="flex p-4 flex-col text-foreground mx-auto max-w-screen-xl font-ibarraRealNova">
+        <div className="flex p-12 md:p-4 flex-col text-foreground mx-auto max-w-screen-xl font-ibarraRealNova">
             <h1 className='text-4xl text-center mt-12'>{postData.title}</h1>
             <p className='text-center p-4'>{postData.date}</p>
+            <div className='items-end p-4'>
+                <IoIosLink className='ml-auto h-11 w-auto text-2xl p-2 rounded-full border-2 border-gray-500 hover:shadow-inner'/>
+            </div>
             <div className='text-lg text-justify'>
                 <Markdown
                     components={{
