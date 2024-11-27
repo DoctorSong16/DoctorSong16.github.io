@@ -31,6 +31,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Dundu Does Stuff",
   description: "My corner of the internet.",
+  metadataBase: new URL("https://www.dundudoes.com"),
 };
 
 // Menu items as an array of Record<string, string>
