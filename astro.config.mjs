@@ -10,7 +10,8 @@ export default defineConfig({
   build: { format: 'file' },
   trailingSlash: 'never',
   markdown: {
-    shikiConfig: { themes: { light: 'github-light', dark: 'github-dark' } },
+    // Syntax colours come from the site palette (--astro-code-* in global.css).
+    shikiConfig: { theme: 'css-variables' },
   },
   integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },

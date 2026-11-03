@@ -6,32 +6,59 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
 }
 
+/*
+  Palette: forest #15370d, sage #7a9d73, cream #f7eede, coffee #523a34, terracotta #bb7e5d.
+  Text colours are tuned shades of these where the raw colour is too faint to read
+  (WCAG AA, 4.5:1). Contrast against the page background is noted for each.
+*/
 :root {
-  --background: #f9f7f7;
-  --foreground: #112d4e;
-  --link-color: #3f72af;
+  color-scheme: light;
+  --background: #f7eede; /* cream */
+  --surface: #fbf6ec; /* cards, code blocks */
+  --foreground: #15370d; /* forest: headings, nav — 11.5:1 */
+  --text-soft: #523a34; /* coffee: body text — 9.1:1 */
+  --muted: #7a625b; /* soft coffee: dates, quotes — 4.9:1 */
+  --link-color: #8e5333; /* deep terracotta — 5.3:1 */
+  --marker: #4e6f48; /* deep sage: list markers — 4.9:1 */
+  --accent: #7a9d73; /* sage: rules, quote bars (decorative) */
+  --focus: #8e5333;
+  --selection: rgb(122 157 115 / 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground: #f9f7f7;
-    --background: #112d4e;
-    --link-color: #a9c7ec;
+    color-scheme: dark;
+    --background: #15370d; /* forest */
+    --surface: #1c4413;
+    --foreground: #f7eede; /* cream — 11.5:1 */
+    --text-soft: #ece2d0; /* softened cream — 10.2:1 */
+    --muted: #a9c4a2; /* light sage — 7.0:1 */
+    --link-color: #e0a988; /* light terracotta — 6.4:1 */
+    --marker: #a9c4a2;
+    --accent: #7a9d73;
+    --focus: #e0a988;
+    --selection: rgb(187 126 93 / 0.4);
   }
-}
-
-:root {
-  /* Softer shades of the foreground for long-form text and secondary details. */
-  --text-soft: color-mix(in oklab, var(--foreground) 88%, var(--background));
-  --muted: color-mix(in oklab, var(--foreground) 68%, var(--background));
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'Ibarra Real Nova Variable', serif;
+}
+
+::selection {
+  background: var(--selection);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* When hovering over a link, change the color */
@@ -41,6 +68,12 @@ a:hover {
 
 /* Rendered markdown in the home page intro (src/content/pages/home.md). */
 @layer components {
+  .hero-intro {
+    color: var(--text-soft);
+  }
+  .hero-intro h1 {
+    @apply text-foreground;
+  }
   .hero-intro p {
     @apply mb-[1em] text-justify hyphens-auto last:mb-0;
   }
@@ -49,7 +82,7 @@ a:hover {
     color: var(--link-color);
   }
   .hero-intro strong {
-    @apply font-semibold;
+    @apply font-semibold text-foreground;
   }
 }
 
@@ -107,27 +140,27 @@ a:hover {
     @apply list-decimal;
   }
   .post-body li {
-    @apply mb-[0.35em] pl-[0.2em] marker:text-muted;
+    @apply mb-[0.35em] pl-[0.2em] marker:text-(--marker);
   }
   .post-body li > :is(ul, ol) {
     @apply mt-[0.35em] mb-0;
   }
 
   .post-body blockquote {
-    @apply my-[1.4em] border-l-2 border-current/25 pl-[1em] text-muted italic;
+    @apply my-[1.4em] border-l-2 border-accent pl-[1em] text-muted italic;
   }
   .post-body blockquote > :last-child {
     @apply mb-0;
   }
 
   .post-body pre {
-    @apply my-[1.4em] overflow-x-auto rounded-lg border border-current/15 p-4 text-left text-[0.8em] leading-relaxed;
+    @apply my-[1.4em] overflow-x-auto rounded-lg border border-accent/40 p-4 text-left text-[0.8em] leading-relaxed;
   }
   .post-body code {
     @apply font-mono;
   }
   .post-body :not(pre) > code {
-    @apply rounded bg-current/[0.07] px-[0.3em] py-[0.1em] text-[0.85em];
+    @apply rounded bg-surface px-[0.3em] py-[0.1em] text-[0.85em] text-foreground;
   }
 
   .post-body table {
@@ -137,18 +170,40 @@ a:hover {
     @apply font-semibold text-foreground;
   }
   .post-body :is(th, td) {
-    @apply border border-current/20 px-3 py-1.5;
+    @apply border border-accent/50 px-3 py-1.5;
   }
   .post-body hr {
-    @apply mx-auto my-[2.4em] w-1/3 border-current/20;
+    @apply mx-auto my-[2.4em] w-1/3 border-accent;
   }
 }
 
-/* Code blocks use Shiki's light theme by default; swap to its dark theme. */
+/*
+  Code blocks: Shiki's css-variables theme, coloured from the palette.
+  Every token is at least 5.2:1 against the surface colour in both modes.
+*/
+:root {
+  --astro-code-background: var(--surface);
+  --astro-code-foreground: var(--text-soft);
+  --astro-code-token-keyword: #8e5333;
+  --astro-code-token-constant: #8e5333;
+  --astro-code-token-link: #8e5333;
+  --astro-code-token-string: #4e6f48;
+  --astro-code-token-string-expression: #4e6f48;
+  --astro-code-token-function: #15370d;
+  --astro-code-token-parameter: #523a34;
+  --astro-code-token-comment: #7a625b;
+  --astro-code-token-punctuation: #7a625b;
+}
 @media (prefers-color-scheme: dark) {
-  .astro-code,
-  .astro-code span {
-    color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
+  :root {
+    --astro-code-token-keyword: #e0a988;
+    --astro-code-token-constant: #e0a988;
+    --astro-code-token-link: #e0a988;
+    --astro-code-token-string: #a9c4a2;
+    --astro-code-token-string-expression: #a9c4a2;
+    --astro-code-token-function: #f7eede;
+    --astro-code-token-parameter: #ece2d0;
+    --astro-code-token-comment: #c4b8a3;
+    --astro-code-token-punctuation: #c4b8a3;
   }
 }
