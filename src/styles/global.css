@@ -92,9 +92,16 @@ a:hover {
 
 /* Rendered markdown in blog posts. Sizes are in em so everything scales with the body text. */
 @layer components {
+  /*
+    Justified with automatic hyphenation (needs <html lang>) so lines fill without
+    wide word gaps. Words of 5+ letters may break, leaving at least 2 letters before
+    the hyphen and carrying at least 3 to the next line (no "-ly" fragments).
+    text-wrap: pretty is left off: it fights justification and can open big gaps.
+  */
   .post-body {
-    @apply text-lg/[1.75] text-pretty sm:text-xl/[1.75];
+    @apply text-lg/[1.75] text-justify hyphens-auto sm:text-xl/[1.75];
     color: var(--text-soft);
+    hyphenate-limit-chars: 5 2 3;
   }
   .post-body > :first-child {
     @apply mt-0;
@@ -102,7 +109,7 @@ a:hover {
 
   /* The post title is the page's h1, so even a markdown "# heading" stays below it. */
   .post-body :is(h1, h2, h3, h4, h5, h6) {
-    @apply mt-[1.8em] mb-[0.5em] leading-snug font-semibold text-balance text-foreground;
+    @apply mt-[1.8em] mb-[0.5em] text-left leading-snug font-semibold text-balance hyphens-manual text-foreground;
   }
   .post-body h1 {
     @apply text-[1.6em];
