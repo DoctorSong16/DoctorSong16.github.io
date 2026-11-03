@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate } from '../lib/posts';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+---
+
+<div class="mx-auto flex w-11/12 flex-col items-center rounded-md p-4 shadow-md transition duration-300 hover:rounded-lg hover:shadow-lg">
+  <h2 class="text-2xl font-semibold">
+    <a href={`/post/${post.id}`}>{post.data.title}</a>
+  </h2>
+  <p>{formatDate(post.data.date)}</p>
+  <p>{post.data.summary}</p>
+</div>

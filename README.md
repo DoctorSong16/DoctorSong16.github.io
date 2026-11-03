@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# dundu does stuff
 
-## Getting Started
+Source for [www.dundudoes.com](https://www.dundudoes.com), built with [Astro](https://astro.build) and Tailwind CSS, and deployed to GitHub Pages.
 
-First, run the development server:
+## Writing a post (no coding needed)
+
+Posts are edited with [Pages CMS](https://app.pagescms.org):
+
+1. Go to [app.pagescms.org](https://app.pagescms.org) and sign in with GitHub.
+2. Open **DoctorSong16.github.io**, then **Blog posts**.
+3. Click **Add an entry**, fill in the title, date, a short summary, and write the post.
+   - Use the toolbar for headings, lists, links and images. Images are uploaded straight from your computer.
+   - Tick **Draft** to save without publishing. Untick it when the post is ready.
+4. Click **Save**. The site updates about a minute later.
+
+To fix a typo later, open the post in Pages CMS, edit, and save again.
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:4321, drafts are visible here
+npm run build    # type-checks and builds to dist/
+npm run preview  # serves the built site
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Pages live in `src/pages`, shared layout in `src/layouts`, components in `src/components`.
+- Posts are Markdown files in `src/content/posts`. Their fields are defined in `src/content.config.ts` and must match `.pages.yml`.
+- Uploaded images go to `public/images` and are referenced as `/images/<name>`.
+- Pushing to `main` deploys via `.github/workflows/deploy.yml`.

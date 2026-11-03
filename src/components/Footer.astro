@@ -1,0 +1,16 @@
+---
+interface Props {
+  name: string;
+  since: number;
+}
+
+const { name, since } = Astro.props;
+const year = new Date().getFullYear();
+const years = year > since ? `${since}–${year}` : `${since}`;
+---
+
+<footer class="bg-background text-foreground">
+  <div class="mx-auto max-w-7xl p-4">
+    <p class="text-center">&copy; {years} {name}. all rights reserved.</p>
+  </div>
+</footer>
