@@ -10,6 +10,7 @@ Posts are edited with [Pages CMS](https://app.pagescms.org):
 2. Open **DoctorSong16.github.io**, then **Blog posts**.
 3. Click **Add an entry**, fill in the title, date, a short summary, and write the post.
    - Use the toolbar for headings, lists, links and images. Images are uploaded straight from your computer.
+   - Optionally add a **Cover image**. It's shown as a square thumbnail next to the post on the blog page, so keep the subject near the middle. Add a few words in **Cover description** for people using screen readers.
    - Tick **Draft** to save without publishing. Untick it when the post is ready.
 4. Click **Save**. The site updates about a minute later.
 
@@ -30,5 +31,6 @@ npm run preview  # serves the built site
 
 - Pages live in `src/pages`, shared layout in `src/layouts`, components in `src/components`.
 - Posts are Markdown files in `src/content/posts`, and the home page intro is `src/content/pages/home.md`. Their fields are defined in `src/content.config.ts` and must match `.pages.yml`.
-- Uploaded images go to `public/images` and are referenced as `/images/<name>`.
+- Images inside posts go to `public/images` and are referenced as `/images/<name>`.
+- Cover images go to `src/assets/covers` and are referenced relative to the post (`../../assets/covers/<name>`), so Astro resizes them.
 - Pushing to `main` deploys via `.github/workflows/deploy.yml`.

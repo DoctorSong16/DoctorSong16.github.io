@@ -1,5 +1,5 @@
 ---
-import PostPreviewCard from '../../components/PostPreviewCard.astro';
+import PostListItem from '../../components/PostListItem.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../../lib/posts';
 
@@ -7,7 +7,11 @@ const posts = await getPublishedPosts();
 ---
 
 <BaseLayout title="Blog">
-  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3">
-    {posts.map((post) => <PostPreviewCard post={post} />)}
-  </div>
+  <!-- Same 44rem column as the posts themselves. -->
+  <main class="mx-auto max-w-[44rem] px-5 pt-4 pb-20 sm:px-6 sm:pt-8">
+    <h1 class="sr-only">Blog posts</h1>
+    <div class="divide-y divide-accent/40">
+      {posts.map((post) => <PostListItem post={post} />)}
+    </div>
+  </main>
 </BaseLayout>

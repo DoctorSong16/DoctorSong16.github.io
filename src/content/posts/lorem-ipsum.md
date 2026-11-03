@@ -3,6 +3,8 @@ title: "Lorem Ipsum"
 category: "General"
 date: "2024-11-23"
 summary: "Lorem Ipsum"
+cover: ../../assets/covers/cat.jpg
+coverAlt: "A white and grey cat looking up"
 ---
 
 ## Lorem Ipsum

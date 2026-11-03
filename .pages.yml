@@ -2,10 +2,21 @@
 # Fields here must stay in sync with the schemas in src/content.config.ts.
 
 media:
-  input: public/images
-  output: /images
-  rename: safe
-  categories: [image]
+  # Images inside post text, served as-is from /images.
+  - name: images
+    label: Post images
+    input: public/images
+    output: /images
+    rename: safe
+    categories: [image]
+  # Cover images live in src/ so Astro can resize them. The output is the path
+  # relative to a post file (src/content/posts/*.md), which is what Astro expects.
+  - name: covers
+    label: Cover images
+    input: src/assets/covers
+    output: ../../assets/covers
+    rename: safe
+    categories: [image]
 
 content:
   - name: home
@@ -56,6 +67,16 @@ content:
         label: Summary
         description: One or two sentences shown on the blog page.
         type: text
+      - name: cover
+        label: Cover image
+        description: Optional. Shown as a square thumbnail on the blog page.
+        type: image
+        options:
+          media: covers
+      - name: coverAlt
+        label: Cover description
+        description: A few words describing the cover, for screen readers.
+        type: string
       - name: draft
         label: Draft
         description: Drafts are saved but not shown on the site.
@@ -66,3 +87,4 @@ content:
         type: rich-text
         options:
           format: markdown
+          media: images
