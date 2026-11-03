@@ -34,7 +34,7 @@ a:hover {
 /* Rendered markdown in blog posts. */
 @layer components {
   .post-body {
-    @apply text-lg text-justify;
+    @apply text-lg text-justify hyphens-auto;
   }
   .post-body h1 {
     @apply text-4xl font-semibold;
@@ -79,7 +79,7 @@ a:hover {
     @apply font-mono text-base;
   }
   .post-body table {
-    @apply my-4 border-collapse text-left;
+    @apply my-4 block max-w-full border-collapse overflow-x-auto text-left;
   }
   .post-body :is(th, td) {
     @apply border border-current/30 px-3 py-1;
