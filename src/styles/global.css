@@ -32,12 +32,16 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
-    --background: #15370d; /* forest */
-    --surface: #1c4413;
-    --foreground: #f7eede; /* cream — 11.5:1 */
-    --text-soft: #ece2d0; /* softened cream — 10.2:1 */
-    --muted: #a9c4a2; /* light sage — 7.0:1 */
-    --link-color: #e0a988; /* light terracotta — 6.4:1 */
+    /*
+      Forest's hue (140°) at much lower lightness and chroma: a large saturated
+      area reads too bright on big screens, so dark mode uses a deep, muted green.
+    */
+    --background: #0d1a0a; /* oklch(0.20 0.035 140) */
+    --surface: #142610; /* oklch(0.245 0.045 140): one step up for cards, code */
+    --foreground: #f7eede; /* cream — 15.6:1 */
+    --text-soft: #ece2d0; /* softened cream — 14.0:1 */
+    --muted: #a9c4a2; /* light sage — 9.5:1 */
+    --link-color: #e0a988; /* light terracotta — 8.7:1 */
     --marker: #a9c4a2;
     --accent: #7a9d73;
     --focus: #e0a988;
