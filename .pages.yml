@@ -1,0 +1,51 @@
+# Pages CMS configuration: https://pagescms.org/docs/
+# Fields in the "posts" collection must stay in sync with src/content.config.ts.
+
+media:
+  input: public/images
+  output: /images
+  rename: safe
+  categories: [image]
+
+content:
+  - name: posts
+    label: Blog posts
+    type: collection
+    path: src/content/posts
+    filename: '{primary}.md'
+    view:
+      fields: [title, date, draft]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: category
+        label: Category
+        type: string
+        default: General
+      - name: summary
+        label: Summary
+        description: One or two sentences shown on the blog page.
+        type: text
+      - name: draft
+        label: Draft
+        description: Drafts are saved but not shown on the site.
+        type: boolean
+        default: false
+      - name: body
+        label: Post
+        type: rich-text
+        options:
+          format: markdown

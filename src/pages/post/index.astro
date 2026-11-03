@@ -1,0 +1,13 @@
+---
+import PostPreviewCard from '../../components/PostPreviewCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="Blog">
+  <div class="mx-auto grid max-w-7xl grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3">
+    {posts.map((post) => <PostPreviewCard post={post} />)}
+  </div>
+</BaseLayout>
