@@ -14,4 +14,13 @@ const posts = defineCollection({
   }),
 });
 
-export const collections = { posts };
+// Single editable pages (e.g. home.md for the home page intro).
+// Fields must stay in sync with the matching "file" entries in .pages.yml.
+const pages = defineCollection({
+  loader: glob({ pattern: '*.md', base: './src/content/pages' }),
+  schema: z.object({
+    heading: z.string(),
+  }),
+});
+
+export const collections = { posts, pages };

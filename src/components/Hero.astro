@@ -1,5 +1,6 @@
 ---
 import { getImage } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
 import dundu from '../assets/dundu.jpeg';
 import dunduPortrait from '../assets/dundu-portrait.jpeg';
 
@@ -22,11 +23,19 @@ const sources = await Promise.all(
   })),
 );
 const fallback = sources.at(-1)!.landscape;
+
+const home = await getEntry('pages', 'home');
+if (!home) throw new Error('Missing src/content/pages/home.md');
+const { Content } = await render(home);
 ---
 
 <section class="@container mx-auto max-w-5xl px-4 pt-2 pb-12 sm:px-8 lg:py-12">
-  <div class="mx-auto grid max-w-2xl items-center gap-8 lg:max-w-none lg:grid-cols-[1fr_2fr] lg:gap-[5cqi]">
-    <picture>
+  <div class="mx-auto grid max-w-2xl gap-8 lg:max-w-none lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-[5cqi]">
+    <!--
+      Side by side, the photo is at least 3:4 and otherwise stretches to the text's
+      height (cropping its sides), so a longer intro never leaves the text overhanging.
+    -->
+    <picture class="relative block lg:aspect-[3/4] lg:w-full lg:self-stretch">
       {
         sources.map(({ type, portrait }) => (
           <source
@@ -51,7 +60,7 @@ const fallback = sources.at(-1)!.landscape;
         width={dundu.width}
         height={dundu.height}
         alt="Dundu smiling outdoors in front of a city skyline"
-        class="h-auto w-full rounded-[24px] drop-shadow-2xl"
+        class="h-auto w-full rounded-[24px] object-cover drop-shadow-2xl lg:absolute lg:inset-0 lg:h-full"
         loading="eager"
         fetchpriority="high"
         decoding="async"
@@ -59,22 +68,13 @@ const fallback = sources.at(-1)!.landscape;
     </picture>
 
     <!--
-      Side by side, the font size scales with the hero's width (cqi), so the text
-      wraps to the same number of lines at every width and its height tracks the
-      image's height. Stacked, it uses ordinary readable sizes.
+      Side by side, the font size scales with the hero's width (cqi). It's tuned so
+      an intro of about 150 words matches the photo's 3:4 height. Stacked, it uses
+      ordinary readable sizes. The text comes from src/content/pages/home.md (Pages CMS).
     -->
-    <div class="text-lg leading-relaxed sm:text-xl lg:text-[length:2.09cqi]">
-      <h1 class="mb-[0.5em] text-4xl leading-tight lg:text-[2.4em]">Hi, I'm Dundu :)</h1>
-      <p class="mb-[1em] text-justify hyphens-auto">
-        Welcome to my little corner of the internet! I find joy in sharing my love for all things creative. Here, I
-        share my journey through a wide range of hobbies — from learning new languages, reading books, to painting with
-        watercolors, sewing dresses, learning music, cooking up something delicious, and other hands-on crafts.
-      </p>
-      <p class="text-justify hyphens-auto">
-        When I'm not making something new, I enjoy volunteering in the community and spending hours at the library. I
-        also love writing fiction and reflecting on the experiences that make life meaningful. I hope my stories spark
-        your curiosity and inspire you to embrace your own passions!
-      </p>
+    <div class="hero-intro text-lg leading-relaxed sm:text-xl lg:self-center lg:text-[length:2.09cqi]">
+      <h1 class="mb-[0.5em] text-4xl leading-tight lg:text-[2.4em]">{home.data.heading}</h1>
+      <Content />
     </div>
   </div>
 </section>

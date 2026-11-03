@@ -39,6 +39,20 @@ a:hover {
   color: var(--link-color);
 }
 
+/* Rendered markdown in the home page intro (src/content/pages/home.md). */
+@layer components {
+  .hero-intro p {
+    @apply mb-[1em] text-justify hyphens-auto last:mb-0;
+  }
+  .hero-intro a {
+    @apply underline decoration-current/40 decoration-1 underline-offset-[0.2em] hover:decoration-current;
+    color: var(--link-color);
+  }
+  .hero-intro strong {
+    @apply font-semibold;
+  }
+}
+
 /* Rendered markdown in blog posts. Sizes are in em so everything scales with the body text. */
 @layer components {
   .post-body {
