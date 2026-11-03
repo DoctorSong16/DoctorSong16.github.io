@@ -15,6 +15,10 @@ Posts are edited with [Pages CMS](https://app.pagescms.org):
 
 To fix a typo later, open the post in Pages CMS, edit, and save again.
 
+## Editing the home page
+
+In Pages CMS, open **Home page** to change the greeting and the introduction next to the photo, then click **Save**. Around 150 words lines up best with the photo on wide screens. Longer is fine too: the photo grows taller to match.
+
 ## Development
 
 ```bash
@@ -25,6 +29,6 @@ npm run preview  # serves the built site
 ```
 
 - Pages live in `src/pages`, shared layout in `src/layouts`, components in `src/components`.
-- Posts are Markdown files in `src/content/posts`. Their fields are defined in `src/content.config.ts` and must match `.pages.yml`.
+- Posts are Markdown files in `src/content/posts`, and the home page intro is `src/content/pages/home.md`. Their fields are defined in `src/content.config.ts` and must match `.pages.yml`.
 - Uploaded images go to `public/images` and are referenced as `/images/<name>`.
 - Pushing to `main` deploys via `.github/workflows/deploy.yml`.

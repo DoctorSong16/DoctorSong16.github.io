@@ -1,5 +1,5 @@
 # Pages CMS configuration: https://pagescms.org/docs/
-# Fields in the "posts" collection must stay in sync with src/content.config.ts.
+# Fields here must stay in sync with the schemas in src/content.config.ts.
 
 media:
   input: public/images
@@ -8,6 +8,23 @@ media:
   categories: [image]
 
 content:
+  - name: home
+    label: Home page
+    type: file
+    path: src/content/pages/home.md
+    fields:
+      - name: heading
+        label: Greeting
+        type: string
+        required: true
+      - name: body
+        label: Introduction
+        description: Around 150 words lines up best with the photo on wide screens.
+        type: rich-text
+        options:
+          format: markdown
+          media: false
+
   - name: posts
     label: Blog posts
     type: collection
