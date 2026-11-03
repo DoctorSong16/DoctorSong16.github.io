@@ -1,0 +1,79 @@
+---
+import { getImage } from 'astro:assets';
+import dundu from '../assets/dundu.jpeg';
+import dunduPortrait from '../assets/dundu-portrait.jpeg';
+
+// Art direction: stacked layouts show the full landscape photo; side-by-side
+// layouts (lg+) show a 3:4 crop so the image is tall enough to sit beside the text.
+const sideBySide = '(min-width: 1024px)';
+
+// Rendered widths: the landscape photo fills the column up to max-w-2xl (42rem);
+// the portrait crop gets 1/3 of the hero, which is capped at max-w-7xl (80rem).
+const landscapeSizes = '(min-width: 44rem) 42rem, calc(100vw - 2rem)';
+const portraitSizes = '(min-width: 80rem) 24rem, 30vw';
+
+const formats = ['avif', 'webp', 'jpeg'] as const;
+const sources = await Promise.all(
+  formats.map(async (format) => ({
+    type: `image/${format}`,
+    portrait: await getImage({ src: dunduPortrait, widths: [320, 480, 640], format }),
+    landscape: await getImage({ src: dundu, widths: [400, 672, 1000, 1280], format }),
+  })),
+);
+const fallback = sources.at(-1)!.landscape;
+---
+
+<section class="@container mx-auto max-w-7xl px-4 pt-2 pb-12 sm:px-8 lg:py-12">
+  <div class="mx-auto grid max-w-2xl items-center gap-8 lg:max-w-none lg:grid-cols-[1fr_2fr] lg:gap-[5cqi]">
+    <picture>
+      {
+        sources.map(({ type, portrait }) => (
+          <source
+            media={sideBySide}
+            type={type}
+            srcset={portrait.srcSet.attribute}
+            sizes={portraitSizes}
+            width={dunduPortrait.width}
+            height={dunduPortrait.height}
+          />
+        ))
+      }
+      {
+        sources.map(({ type, landscape }) => (
+          <source type={type} srcset={landscape.srcSet.attribute} sizes={landscapeSizes} />
+        ))
+      }
+      <img
+        src={fallback.src}
+        srcset={fallback.srcSet.attribute}
+        sizes={landscapeSizes}
+        width={dundu.width}
+        height={dundu.height}
+        alt="Dundu smiling outdoors in front of a city skyline"
+        class="h-auto w-full rounded-[24px] drop-shadow-2xl"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+
+    <!--
+      Side by side, the font size scales with the hero's width (cqi), so the text
+      wraps to the same number of lines at every width and its height tracks the
+      image's height. Stacked, it uses ordinary readable sizes.
+    -->
+    <div class="text-lg leading-relaxed sm:text-xl lg:text-[length:2.09cqi]">
+      <h1 class="mb-[0.5em] text-4xl leading-tight lg:text-[2.4em]">Hi, I'm Dundu :)</h1>
+      <p class="mb-[1em] text-justify hyphens-auto">
+        Welcome to my little corner of the internet! I find joy in sharing my love for all things creative. Here, I
+        share my journey through a wide range of hobbies — from learning new languages, reading books, to painting with
+        watercolors, sewing dresses, learning music, cooking up something delicious, and other hands-on crafts.
+      </p>
+      <p class="text-justify hyphens-auto">
+        When I'm not making something new, I enjoy volunteering in the community and spending hours at the library. I
+        also love writing fiction and reflecting on the experiences that make life meaningful. I hope my stories spark
+        your curiosity and inspire you to embrace your own passions!
+      </p>
+    </div>
+  </div>
+</section>

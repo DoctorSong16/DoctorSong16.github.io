@@ -1,32 +1,8 @@
 ---
+import Hero from '../components/Hero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout>
-  <div class="mx-auto flex max-w-7xl flex-col flex-wrap items-center md:flex-row md:px-2">
-    <div class="max-h-screen p-8 md:w-1/2 md:p-2">
-      <img
-        src="/dundu.jpeg"
-        width="1280"
-        height="854"
-        class="rounded-[24px] object-contain drop-shadow-2xl"
-        alt="Dundu"
-        fetchpriority="high"
-      />
-    </div>
-    <div class="flex w-11/12 flex-col p-8 md:w-1/2">
-      <h1 class="text-4xl">Hi, I'm Dundu :)</h1>
-      <p class="text-justify text-xl md:text-sm lg:text-sm xl:text-xl">
-        <br />
-        Welcome to my little corner of the internet! I find joy in sharing my love for all things creative. Here, I
-        share my journey through a wide range of hobbies — from learning new languages, reading books, to painting with
-        watercolors, sewing dresses, learning music, cooking up something delicious, and other hands-on crafts.
-        <br />
-        <br />
-        When I'm not making something new, I enjoy volunteering in the community and spending hours at the library. I
-        also love writing fiction and reflecting on the experiences that make life meaningful. I hope my stories spark
-        your curiosity and inspire you to embrace your own passions!
-      </p>
-    </div>
-  </div>
+  <Hero />
 </BaseLayout>
