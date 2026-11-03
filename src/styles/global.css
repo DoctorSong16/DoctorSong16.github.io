@@ -1,10 +1,11 @@
 @import 'tailwindcss';
-@import '@fontsource/ibarra-real-nova/400.css';
-@import '@fontsource/ibarra-real-nova/700.css';
+@import '@fontsource-variable/ibarra-real-nova/wght.css';
+@import '@fontsource-variable/ibarra-real-nova/wght-italic.css';
 
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
 }
 
 :root {
@@ -17,13 +18,20 @@
   :root {
     --foreground: #f9f7f7;
     --background: #112d4e;
+    --link-color: #a9c7ec;
   }
+}
+
+:root {
+  /* Softer shades of the foreground for long-form text and secondary details. */
+  --text-soft: color-mix(in oklab, var(--foreground) 88%, var(--background));
+  --muted: color-mix(in oklab, var(--foreground) 68%, var(--background));
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Ibarra Real Nova', serif;
+  font-family: 'Ibarra Real Nova Variable', serif;
 }
 
 /* When hovering over a link, change the color */
@@ -31,61 +39,94 @@ a:hover {
   color: var(--link-color);
 }
 
-/* Rendered markdown in blog posts. */
+/* Rendered markdown in blog posts. Sizes are in em so everything scales with the body text. */
 @layer components {
   .post-body {
-    @apply text-lg text-justify hyphens-auto;
+    @apply text-lg/[1.75] text-pretty sm:text-xl/[1.75];
+    color: var(--text-soft);
+  }
+  .post-body > :first-child {
+    @apply mt-0;
+  }
+
+  /* The post title is the page's h1, so even a markdown "# heading" stays below it. */
+  .post-body :is(h1, h2, h3, h4, h5, h6) {
+    @apply mt-[1.8em] mb-[0.5em] leading-snug font-semibold text-balance text-foreground;
   }
   .post-body h1 {
-    @apply text-4xl font-semibold;
+    @apply text-[1.6em];
   }
   .post-body h2 {
-    @apply text-2xl font-semibold;
+    @apply text-[1.4em];
   }
   .post-body h3 {
-    @apply text-xl font-semibold;
+    @apply text-[1.2em];
   }
   .post-body :is(h4, h5, h6) {
-    @apply text-lg font-semibold;
+    @apply text-[1em];
   }
-  .post-body :is(h1, h2, h3, h4, h5, h6) {
-    @apply mt-6 mb-2 text-left;
+  .post-body h6 {
+    @apply text-muted;
   }
+
   .post-body p {
-    @apply mb-2 text-lg;
+    @apply mb-[1.1em];
   }
-  .post-body img {
-    @apply my-4 rounded-[24px] object-contain;
+  .post-body strong {
+    @apply font-semibold text-foreground;
   }
   .post-body a {
-    @apply text-blue-500 hover:underline;
+    @apply underline decoration-current/40 decoration-1 underline-offset-[0.2em] hover:decoration-current;
+    color: var(--link-color);
+  }
+  .post-body img {
+    @apply mx-auto my-[1.6em] rounded-[24px] object-contain;
+  }
+
+  .post-body :is(ul, ol) {
+    @apply mb-[1.1em] pl-[1.4em];
   }
   .post-body ul {
-    @apply mb-2 list-disc pl-8;
+    @apply list-disc;
   }
   .post-body ol {
-    @apply mb-2 list-decimal pl-8;
+    @apply list-decimal;
+  }
+  .post-body li {
+    @apply mb-[0.35em] pl-[0.2em] marker:text-muted;
   }
   .post-body li > :is(ul, ol) {
+    @apply mt-[0.35em] mb-0;
+  }
+
+  .post-body blockquote {
+    @apply my-[1.4em] border-l-2 border-current/25 pl-[1em] text-muted italic;
+  }
+  .post-body blockquote > :last-child {
     @apply mb-0;
   }
-  .post-body blockquote {
-    @apply my-4 border-l-4 border-current/30 pl-4 italic;
-  }
+
   .post-body pre {
-    @apply my-4 overflow-x-auto rounded-lg border border-current/15 p-4 text-left text-base;
+    @apply my-[1.4em] overflow-x-auto rounded-lg border border-current/15 p-4 text-left text-[0.8em] leading-relaxed;
   }
   .post-body code {
-    @apply font-mono text-base;
+    @apply font-mono;
   }
+  .post-body :not(pre) > code {
+    @apply rounded bg-current/[0.07] px-[0.3em] py-[0.1em] text-[0.85em];
+  }
+
   .post-body table {
-    @apply my-4 block max-w-full border-collapse overflow-x-auto text-left;
+    @apply my-[1.4em] block max-w-full border-collapse overflow-x-auto text-left text-[0.9em];
+  }
+  .post-body th {
+    @apply font-semibold text-foreground;
   }
   .post-body :is(th, td) {
-    @apply border border-current/30 px-3 py-1;
+    @apply border border-current/20 px-3 py-1.5;
   }
   .post-body hr {
-    @apply my-8 border-current/30;
+    @apply mx-auto my-[2.4em] w-1/3 border-current/20;
   }
 }
 

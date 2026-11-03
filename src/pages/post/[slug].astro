@@ -14,22 +14,32 @@ const { Content } = await render(post);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.summary || undefined}>
-  <!-- 40rem keeps body lines around 70 characters, a comfortable reading length. -->
-  <article class="mx-auto flex max-w-[40rem] flex-col px-5 pb-16 text-foreground sm:px-6">
-    <h1 class="mt-12 text-center text-4xl text-balance">{post.data.title}</h1>
-    <p class="p-4 text-center">{formatDate(post.data.date)}</p>
-    <div class="flex items-center justify-end gap-3 py-4">
-      <span id="copy-status" class="text-sm" aria-live="polite"></span>
-      <button
-        id="copy-link"
-        type="button"
-        class="h-11 w-11 cursor-pointer rounded-full border-2 border-gray-500 p-2 text-2xl hover:shadow-inner"
-        aria-label="Copy link to this post"
-        title="Copy link to this post"
-      >
-        <LinkIcon class="h-full w-full" />
-      </button>
-    </div>
+  <!-- 44rem keeps 20px body lines around 65-70 characters, a comfortable reading length. -->
+  <article class="mx-auto max-w-[44rem] px-5 pb-20 text-foreground sm:px-6">
+    <header class="mt-10 mb-10 text-center sm:mt-16 sm:mb-14">
+      <h1 class="text-4xl leading-tight font-medium text-balance sm:text-5xl">{post.data.title}</h1>
+      <div class="mt-5 flex items-center justify-center gap-3 text-base text-muted">
+        <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{post.data.category}</span>
+        <span aria-hidden="true">·</span>
+        <span class="relative inline-flex">
+          <button
+            id="copy-link"
+            type="button"
+            class="h-8 w-8 cursor-pointer rounded-full border border-current/30 p-1.5 transition-colors hover:border-current hover:text-foreground"
+            aria-label="Copy link to this post"
+            title="Copy link to this post"
+          >
+            <LinkIcon class="h-full w-full" />
+          </button>
+          <span
+            id="copy-status"
+            class="absolute top-full right-0 mt-1 text-sm whitespace-nowrap"
+            aria-live="polite"></span>
+        </span>
+      </div>
+    </header>
     <div class="post-body">
       <Content />
     </div>
