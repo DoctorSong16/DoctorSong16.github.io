@@ -1,0 +1,44 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, readingMinutes } from '../lib/posts';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { title, date, summary, cover, coverAlt } = post.data;
+---
+
+<!-- The title link stretches over the whole item (after:absolute), so the row is one big click target. -->
+<article class="group relative flex items-start gap-5 py-8 sm:gap-8 sm:py-10">
+  <div class="min-w-0 flex-1">
+    <h2 class="text-2xl leading-snug font-semibold text-balance sm:text-3xl">
+      <a href={`/post/${post.id}`} class="after:absolute after:inset-0 group-hover:text-(--link-color)">
+        {title}
+      </a>
+    </h2>
+    <p class="mt-2 flex flex-wrap gap-x-2 text-sm tracking-wider whitespace-nowrap text-muted uppercase">
+      <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date)}</time>
+      <span aria-hidden="true">·</span>
+      <span>{readingMinutes(post.body)} min read</span>
+    </p>
+    {summary && <p class="mt-3 text-lg leading-relaxed text-pretty text-(--text-soft) sm:text-xl">{summary}</p>}
+  </div>
+  {
+    cover && (
+      <Picture
+        src={cover}
+        alt={coverAlt ?? ''}
+        formats={['avif', 'webp']}
+        width={288}
+        height={288}
+        widths={[96, 144, 192, 288]}
+        sizes="(min-width: 640px) 9rem, 6rem"
+        fit="cover"
+        class="aspect-square w-24 shrink-0 rounded-xl object-cover sm:w-36"
+      />
+    )
+  }
+</article>

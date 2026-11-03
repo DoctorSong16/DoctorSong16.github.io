@@ -5,13 +5,18 @@ import { z } from 'astro/zod';
 // Fields here must stay in sync with the "posts" collection in .pages.yml.
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    category: z.string().default('General'),
-    summary: z.string().default(''),
-    draft: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+      category: z.string().default('General'),
+      summary: z.string().default(''),
+      // Relative to the post file, e.g. ../../assets/covers/photo.jpg, so astro:assets
+      // can resize it. Pages CMS writes null when the image is removed.
+      cover: image().nullish(),
+      coverAlt: z.string().nullish(),
+      draft: z.boolean().default(false),
+    }),
 });
 
 // Single editable pages (e.g. home.md for the home page intro).
