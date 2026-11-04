@@ -13,7 +13,8 @@ const posts = defineCollection({
       tags: z
         .array(z.string())
         .nullish()
-        .transform((tags) => tags ?? []),
+        // Tags are always lower case, whatever was typed in the CMS or front matter.
+        .transform((tags) => (tags ?? []).map((tag) => tag.trim().toLowerCase())),
       summary: z.string().default(''),
       // Relative to the post file, e.g. ../../assets/covers/photo.jpg, so astro:assets
       // can resize it. Pages CMS writes null when the image is removed.

@@ -11,7 +11,7 @@ for (const tag of posts.flatMap((post) => post.data.tags)) counts.set(tag, (coun
 const tags = [...counts.keys()].sort((a, b) => counts.get(b)! - counts.get(a)! || a.localeCompare(b));
 
 const chip =
-  'cursor-pointer rounded-full border border-current/30 px-3.5 py-1 text-sm tracking-wider text-muted uppercase transition-colors hover:border-current hover:text-foreground aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:text-background';
+  'cursor-pointer rounded-full border border-current/30 px-3.5 py-1 text-sm tracking-wider text-muted transition-colors hover:border-current hover:text-foreground aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:text-background';
 ---
 
 <BaseLayout title="Blog">
@@ -27,7 +27,7 @@ const chip =
       tags.length > 0 && (
         <div id="tag-filter" class="mt-5 flex flex-wrap gap-2" role="group" aria-label="Filter posts by tag" hidden>
           <button type="button" class={chip} data-tag="" aria-pressed="true">
-            All posts
+            all posts
           </button>
           {tags.map((tag) => (
             <button type="button" class={chip} data-tag={tag} aria-pressed="false">
