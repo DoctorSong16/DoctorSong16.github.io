@@ -91,10 +91,16 @@ content:
         required: true
         options:
           format: yyyy-MM-dd
-      - name: category
-        label: Category
-        type: string
-        default: General
+      # To add a tag, add it to the values below (Settings in Pages CMS edits this
+      # file). Every tag used by a published post becomes a filter on the blog page.
+      - name: tags
+        label: Tags
+        description: Pick one or more. To add a new tag, edit the list in Settings (.pages.yml).
+        type: select
+        default: [General]
+        options:
+          multiple: true
+          values: [General]
       - name: summary
         label: Summary
         description: One or two sentences shown on the blog page.

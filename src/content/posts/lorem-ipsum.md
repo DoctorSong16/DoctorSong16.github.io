@@ -1,6 +1,6 @@
 ---
 title: "Lorem Ipsum"
-category: "General"
+tags: [General]
 date: "2024-11-23"
 summary: "Lorem Ipsum"
 cover: ../../assets/covers/cat.jpg

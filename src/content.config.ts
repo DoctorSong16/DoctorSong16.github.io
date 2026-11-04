@@ -9,7 +9,11 @@ const posts = defineCollection({
     z.object({
       title: z.string(),
       date: z.coerce.date(),
-      category: z.string().default('General'),
+      // Pages CMS writes null when every tag is removed.
+      tags: z
+        .array(z.string())
+        .nullish()
+        .transform((tags) => tags ?? []),
       summary: z.string().default(''),
       // Relative to the post file, e.g. ../../assets/covers/photo.jpg, so astro:assets
       // can resize it. Pages CMS writes null when the image is removed.

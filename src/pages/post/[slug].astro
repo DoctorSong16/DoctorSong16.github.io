@@ -21,8 +21,14 @@ const { Content } = await render(post);
       <div class="mt-5 flex items-center justify-center gap-3 text-base text-muted">
         <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>
         <span aria-hidden="true">·</span>
-        <span>{post.data.category}</span>
-        <span aria-hidden="true">·</span>
+        {
+          post.data.tags.length > 0 && (
+            <>
+              <span>{post.data.tags.join(', ')}</span>
+              <span aria-hidden="true">·</span>
+            </>
+          )
+        }
         <span class="relative inline-flex">
           <button
             id="copy-link"

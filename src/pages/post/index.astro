@@ -4,14 +4,91 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../../lib/posts';
 
 const posts = await getPublishedPosts();
+
+// Every tag on a published post, most used first, then alphabetical.
+const counts = new Map<string, number>();
+for (const tag of posts.flatMap((post) => post.data.tags)) counts.set(tag, (counts.get(tag) ?? 0) + 1);
+const tags = [...counts.keys()].sort((a, b) => counts.get(b)! - counts.get(a)! || a.localeCompare(b));
+
+const chip =
+  'cursor-pointer rounded-full border border-current/30 px-3.5 py-1 text-sm tracking-wider text-muted uppercase transition-colors hover:border-current hover:text-foreground aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:text-background';
 ---
 
 <BaseLayout title="Blog">
   <!-- Same 44rem column as the posts themselves. -->
-  <main class="mx-auto max-w-[44rem] px-5 pt-4 pb-20 sm:px-6 sm:pt-8">
-    <h1 class="sr-only">Blog posts</h1>
-    <div class="divide-y divide-accent/40">
+  <main class="mx-auto max-w-[44rem] px-5 pt-6 pb-20 sm:px-6 sm:pt-12">
+    <h1 class="text-4xl leading-tight font-medium sm:text-5xl">My Writing</h1>
+
+    <!--
+      Tag filter. Picking tags shows posts with any of them; "All posts" clears the
+      selection. Without JavaScript the chips stay hidden and every post is listed.
+    -->
+    {
+      tags.length > 0 && (
+        <div id="tag-filter" class="mt-5 flex flex-wrap gap-2" role="group" aria-label="Filter posts by tag" hidden>
+          <button type="button" class={chip} data-tag="" aria-pressed="true">
+            All posts
+          </button>
+          {tags.map((tag) => (
+            <button type="button" class={chip} data-tag={tag} aria-pressed="false">
+              {tag}
+            </button>
+          ))}
+        </div>
+      )
+    }
+    <p id="filter-status" class="sr-only" aria-live="polite"></p>
+
+    <!-- Rules go between visible posts only, so filtering never leaves a stray line. -->
+    <div
+      id="post-list"
+      class="mt-4 sm:mt-6 [&>article]:border-accent/40 [&>article:not([hidden])~article:not([hidden])]:border-t"
+    >
       {posts.map((post) => <PostListItem post={post} />)}
     </div>
   </main>
 </BaseLayout>
+
+<script>
+  const filter = document.getElementById('tag-filter');
+  const status = document.getElementById('filter-status')!;
+  const posts = [...document.querySelectorAll<HTMLElement>('#post-list > article')];
+
+  if (filter) {
+    const chips = [...filter.querySelectorAll<HTMLButtonElement>('button')];
+    const known = new Set(chips.map((chip) => chip.dataset.tag).filter(Boolean));
+    // Selected tags live in the URL (?tag=A&tag=B) so a filtered view can be shared.
+    const selected = new Set(new URL(location.href).searchParams.getAll('tag').filter((tag) => known.has(tag)));
+
+    const apply = () => {
+      for (const chip of chips) {
+        const tag = chip.dataset.tag!;
+        chip.setAttribute('aria-pressed', String(tag ? selected.has(tag) : selected.size === 0));
+      }
+      let shown = 0;
+      for (const post of posts) {
+        const tags: string[] = JSON.parse(post.dataset.tags ?? '[]');
+        post.hidden = selected.size > 0 && !tags.some((tag) => selected.has(tag));
+        if (!post.hidden) shown++;
+      }
+      status.textContent = `Showing ${shown} ${shown === 1 ? 'post' : 'posts'}`;
+
+      const url = new URL(location.href);
+      url.searchParams.delete('tag');
+      for (const tag of selected) url.searchParams.append('tag', tag);
+      history.replaceState(null, '', url);
+    };
+
+    filter.addEventListener('click', (event) => {
+      const chip = (event.target as Element).closest<HTMLButtonElement>('button');
+      if (!chip) return;
+      const tag = chip.dataset.tag;
+      if (!tag) selected.clear();
+      else if (!selected.delete(tag)) selected.add(tag);
+      apply();
+    });
+
+    filter.hidden = false;
+    if (selected.size > 0) apply();
+  }
+</script>
