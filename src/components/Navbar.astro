@@ -10,6 +10,12 @@ const menuItems = [
 const pathname = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
 const isCurrent = (path: string) =>
   path === '/' ? pathname === '/' : pathname === path || pathname.startsWith(`${path}/`);
+
+// Shared motion for the mobile menu: a soft ease-out. Opening staggers the links via
+// --delay; closing has no delay so everything leaves together. Respects reduced motion.
+const motion =
+  'duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-open/menu:[transition-delay:var(--delay,0ms)] motion-reduce:transition-none';
+const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current ${motion} transition-[translate,rotate,scale,opacity]`;
 ---
 
 <nav class="bg-background text-foreground">
@@ -18,21 +24,21 @@ const isCurrent = (path: string) =>
       <span class="self-center whitespace-nowrap text-4xl font-semibold">dundu does stuff</span>
     </a>
 
-    <!-- Button to open the menu on mobile. -->
+    <!--
+      Button to open the menu on mobile. The three bars morph into an X: the outer
+      bars slide to the middle and rotate, the middle one shrinks away.
+    -->
     <button
       id="menu-toggle"
       type="button"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm md:hidden"
+      class="group relative inline-flex h-10 w-10 items-center justify-center rounded-lg text-foreground md:hidden"
       aria-controls="navbar-mobile"
       aria-expanded="false"
       aria-label="Open menu"
     >
-      <svg data-icon="open" class="text-2xl text-foreground" fill="currentColor" viewBox="0 0 512 512" width="1em" height="1em" aria-hidden="true">
-        <path d="M64 384h384v-42.666H64V384zm0-106.666h384v-42.667H64v42.667zM64 128v42.665h384V128H64z"></path>
-      </svg>
-      <svg data-icon="close" class="hidden text-2xl text-foreground" fill="currentColor" viewBox="0 0 512 512" width="1em" height="1em" aria-hidden="true">
-        <path d="M405 136.798L375.202 107 256 226.202 136.798 107 107 136.798 226.202 256 107 375.202 136.798 405 256 285.798 375.202 405 405 375.202 285.798 256z"></path>
-      </svg>
+      <span aria-hidden="true" class={`${bar} -translate-y-[7px] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-45`}></span>
+      <span aria-hidden="true" class={`${bar} group-aria-expanded:scale-x-0 group-aria-expanded:opacity-0`}></span>
+      <span aria-hidden="true" class={`${bar} translate-y-[7px] group-aria-expanded:translate-y-0 group-aria-expanded:-rotate-45`}></span>
     </button>
 
     <!-- On desktop, we just use a navbar. -->
@@ -54,15 +60,26 @@ const isCurrent = (path: string) =>
       </ul>
     </div>
 
-    <!-- On mobile, we use a collapsible menu. -->
-    <div id="navbar-mobile" class="hidden w-full md:hidden">
-      <ul class="mt-4 flex flex-col rounded-lg p-4 font-medium shadow-inner">
+    <!--
+      On mobile, we use a collapsible menu. It animates its height by transitioning
+      grid rows from 0fr to 1fr (works for any content height), and the links fade
+      and slide in one after another. It's inert while closed so links can't be tabbed to.
+    -->
+    <div
+      id="navbar-mobile"
+      class={`group/menu grid w-full grid-rows-[0fr] opacity-0 data-open:grid-rows-[1fr] data-open:opacity-100 md:hidden ${motion} transition-[grid-template-rows,opacity]`}
+      inert
+    >
+      <ul class="flex min-h-0 flex-col overflow-hidden rounded-lg font-medium shadow-inner">
         {
-          menuItems.map((item) => (
-            <li>
+          menuItems.map((item, i) => (
+            <li
+              class={`-translate-y-2 opacity-0 first:mt-4 first:pt-4 last:pb-4 group-data-open/menu:translate-y-0 group-data-open/menu:opacity-100 ${motion} transition-[translate,opacity]`}
+              style={`--delay: ${60 + i * 40}ms`}
+            >
               <a
                 href={item.path}
-                class="block rounded-sm px-3 py-2 text-2xl hover:font-semibold"
+                class="mx-4 block rounded-sm px-3 py-2 text-2xl hover:font-semibold"
                 aria-current={isCurrent(item.path) ? 'page' : undefined}
               >
                 {item.name.toLowerCase()}
@@ -79,11 +96,20 @@ const isCurrent = (path: string) =>
   const toggle = document.getElementById('menu-toggle')!;
   const menu = document.getElementById('navbar-mobile')!;
 
-  toggle.addEventListener('click', () => {
-    const open = menu.classList.toggle('hidden') === false;
+  const setOpen = (open: boolean) => {
+    menu.toggleAttribute('data-open', open);
+    menu.inert = !open;
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    toggle.querySelector('[data-icon="open"]')!.classList.toggle('hidden', open);
-    toggle.querySelector('[data-icon="close"]')!.classList.toggle('hidden', !open);
+  };
+
+  toggle.addEventListener('click', () => setOpen(!menu.hasAttribute('data-open')));
+
+  // Escape closes the menu and returns focus to the button.
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menu.hasAttribute('data-open')) {
+      setOpen(false);
+      toggle.focus();
+    }
   });
 </script>
