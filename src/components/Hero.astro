@@ -1,32 +1,52 @@
 ---
 import { getImage } from 'astro:assets';
 import { getEntry, render } from 'astro:content';
-import dundu from '../assets/dundu.jpeg';
-import dunduPortrait from '../assets/dundu-portrait.jpeg';
+import type { ImageMetadata } from 'astro';
 
-// Art direction: stacked layouts show the full landscape photo; side-by-side
-// layouts (lg+) show a 3:4 crop so the image is tall enough to sit beside the text.
+const home = await getEntry('pages', 'home');
+if (!home) throw new Error('Missing src/content/pages/home.md');
+const { photo, photoAlt, photoFocus } = home.data;
+if (!photo) throw new Error('src/content/pages/home.md needs a photo (set it in Pages CMS)');
+const { Content } = await render(home);
+
+// The photo comes from Pages CMS and can be any size or shape, so it's cropped at
+// build time. Art direction: side-by-side layouts (lg+) get a 3:4 crop so the photo
+// is tall enough to sit beside the text; stacked layouts show the photo as-is, but
+// clamped between 4:5 (so tall photos don't push the text off screen) and 2:1.
 const sideBySide = '(min-width: 1024px)';
+const ratio = photo.width / photo.height;
+const stackedRatio = Math.min(Math.max(ratio, 4 / 5), 2);
 
-// Rendered widths: the landscape photo fills the column up to max-w-2xl (42rem);
+// Sharp crop positions. "entropy" keeps the most detailed area, which finds a person
+// against a plain background well (sharp's "attention" picks bright sky instead).
+const positions = { auto: 'entropy', center: 'centre', top: 'top', bottom: 'bottom', left: 'left', right: 'right' };
+const position = positions[photoFocus ?? 'auto'];
+
+// Largest crop of the photo at the given aspect ratio, and the srcset widths up to it.
+// Never upscales: small uploads just get fewer, smaller sizes.
+function crop(src: ImageMetadata, aspect: number, widths: number[]) {
+  const width = Math.min(src.width, Math.floor(src.height * aspect));
+  const height = Math.min(src.height, Math.round(width / aspect));
+  return { width, height, widths: [...new Set([...widths.filter((w) => w < width), width])] };
+}
+const portrait = crop(photo, 3 / 4, [320, 480, 640]);
+const stacked = crop(photo, stackedRatio, [400, 672, 1000, 1344]);
+
+// Rendered widths: the stacked photo fills the column up to max-w-2xl (42rem);
 // the portrait crop gets 1/3 of the hero. The hero is capped at max-w-5xl (64rem),
 // the same width where it goes side by side, so that column is always ~19rem.
-const landscapeSizes = '(min-width: 44rem) 42rem, calc(100vw - 2rem)';
+const stackedSizes = '(min-width: 44rem) 42rem, calc(100vw - 2rem)';
 const portraitSizes = '19rem';
 
 const formats = ['avif', 'webp', 'jpeg'] as const;
 const sources = await Promise.all(
   formats.map(async (format) => ({
     type: `image/${format}`,
-    portrait: await getImage({ src: dunduPortrait, widths: [320, 480, 640], format }),
-    landscape: await getImage({ src: dundu, widths: [400, 672, 1000, 1280], format }),
+    portrait: await getImage({ src: photo, ...portrait, fit: 'cover', position, format }),
+    stacked: await getImage({ src: photo, ...stacked, fit: 'cover', position, format }),
   })),
 );
-const fallback = sources.at(-1)!.landscape;
-
-const home = await getEntry('pages', 'home');
-if (!home) throw new Error('Missing src/content/pages/home.md');
-const { Content } = await render(home);
+const fallback = sources.at(-1)!.stacked;
 ---
 
 <section class="@container mx-auto max-w-5xl px-4 pt-2 pb-12 sm:px-8 lg:py-12">
@@ -37,29 +57,35 @@ const { Content } = await render(home);
     -->
     <picture class="relative block lg:aspect-[3/4] lg:w-full lg:self-stretch">
       {
-        sources.map(({ type, portrait }) => (
+        sources.map(({ type, portrait: img }) => (
           <source
             media={sideBySide}
             type={type}
-            srcset={portrait.srcSet.attribute}
+            srcset={img.srcSet.attribute}
             sizes={portraitSizes}
-            width={dunduPortrait.width}
-            height={dunduPortrait.height}
+            width={portrait.width}
+            height={portrait.height}
           />
         ))
       }
       {
-        sources.map(({ type, landscape }) => (
-          <source type={type} srcset={landscape.srcSet.attribute} sizes={landscapeSizes} />
+        sources.map(({ type, stacked: img }) => (
+          <source
+            type={type}
+            srcset={img.srcSet.attribute}
+            sizes={stackedSizes}
+            width={stacked.width}
+            height={stacked.height}
+          />
         ))
       }
       <img
         src={fallback.src}
         srcset={fallback.srcSet.attribute}
-        sizes={landscapeSizes}
-        width={dundu.width}
-        height={dundu.height}
-        alt="Dundu smiling outdoors in front of a city skyline"
+        sizes={stackedSizes}
+        width={stacked.width}
+        height={stacked.height}
+        alt={photoAlt ?? ''}
         class="h-auto w-full rounded-[24px] object-cover drop-shadow-2xl lg:absolute lg:inset-0 lg:h-full"
         loading="eager"
         fetchpriority="high"

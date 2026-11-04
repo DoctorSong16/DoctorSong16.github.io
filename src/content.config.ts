@@ -23,9 +23,16 @@ const posts = defineCollection({
 // Fields must stay in sync with the matching "file" entries in .pages.yml.
 const pages = defineCollection({
   loader: glob({ pattern: '*.md', base: './src/content/pages' }),
-  schema: z.object({
-    heading: z.string(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      heading: z.string(),
+      // Relative to the page file, e.g. ../../assets/home/photo.jpg. Any size or shape
+      // works: Hero.astro crops it to fit each layout. Pages CMS writes null when removed.
+      photo: image().nullish(),
+      photoAlt: z.string().nullish(),
+      // Which part of the photo to keep when it's cropped. "auto" picks the busiest area.
+      photoFocus: z.enum(['auto', 'center', 'top', 'bottom', 'left', 'right']).nullish(),
+    }),
 });
 
 export const collections = { posts, pages };

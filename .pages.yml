@@ -17,6 +17,14 @@ media:
     output: ../../assets/covers
     rename: safe
     categories: [image]
+  # The home page photo, also in src/ so Astro can resize and crop it. The output is
+  # relative to src/content/pages/home.md.
+  - name: home
+    label: Home page photo
+    input: src/assets/home
+    output: ../../assets/home
+    rename: safe
+    categories: [image]
 
 content:
   - name: home
@@ -28,6 +36,30 @@ content:
         label: Greeting
         type: string
         required: true
+      - name: photo
+        label: Photo
+        description: Any shape works. It's cropped to a tall rectangle beside the text on wide screens, so keep the subject away from the very edges.
+        type: image
+        required: true
+        options:
+          media: home
+      - name: photoAlt
+        label: Photo description
+        description: A few words describing the photo, for screen readers.
+        type: string
+      - name: photoFocus
+        label: Crop focus
+        description: Which part of the photo to keep when it's cropped. Auto usually finds the subject; pick a side if it gets it wrong.
+        type: select
+        default: auto
+        options:
+          values:
+            - { value: auto, label: Auto }
+            - { value: center, label: Center }
+            - { value: top, label: Top }
+            - { value: bottom, label: Bottom }
+            - { value: left, label: Left }
+            - { value: right, label: Right }
       - name: body
         label: Introduction
         description: Around 150 words lines up best with the photo on wide screens.
