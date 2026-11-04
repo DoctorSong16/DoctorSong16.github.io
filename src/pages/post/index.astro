@@ -1,7 +1,9 @@
 ---
 import PostListItem from '../../components/PostListItem.astro';
+import TitleRule from '../../components/TitleRule.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../../lib/posts';
+import { pressedUnderline } from '../../lib/underline';
 
 const posts = await getPublishedPosts();
 
@@ -10,27 +12,38 @@ const counts = new Map<string, number>();
 for (const tag of posts.flatMap((post) => post.data.tags)) counts.set(tag, (counts.get(tag) ?? 0) + 1);
 const tags = [...counts.keys()].sort((a, b) => counts.get(b)! - counts.get(a)! || a.localeCompare(b));
 
-const chip =
-  'cursor-pointer rounded-full border border-current/30 px-3.5 py-1 text-sm tracking-wider text-muted transition-colors duration-400 ease-out hover:border-current hover:text-foreground aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:text-background';
+// Filters are plain words with the site's growing underline (the same one as the nav):
+// muted until hovered or selected, when they ease to full colour.
+const filterButton = `cursor-pointer text-muted transition-colors duration-400 ease-out hover:text-foreground aria-pressed:text-foreground motion-reduce:transition-none ${pressedUnderline}`;
 ---
 
 <BaseLayout title="Blog">
   <!-- Same 44rem column as the posts themselves. -->
-  <main class="mx-auto max-w-[44rem] px-5 pt-6 pb-12 sm:px-6 sm:pt-12">
-    <h1 class="text-4xl leading-tight sm:text-5xl">Writing</h1>
+  <main class="mx-auto max-w-[44rem] px-5 pb-12 sm:px-6">
+    <!-- Laid out like a post's header: centred title, then the short sage rule. -->
+    <header class="mt-10 text-center sm:mt-16">
+      <h1 class="text-4xl leading-tight sm:text-5xl">Writing</h1>
+      <TitleRule class="mt-8 sm:mt-10" />
+    </header>
 
     <!--
       Tag filter. Picking tags shows posts with any of them; "All posts" clears the
-      selection. Without JavaScript the chips stay hidden and every post is listed.
+      selection. Without JavaScript the filters stay hidden and every post is listed.
     -->
     {
       tags.length > 0 && (
-        <div id="tag-filter" class="mt-5 flex flex-wrap gap-2" role="group" aria-label="Filter posts by tag" hidden>
-          <button type="button" class={chip} data-tag="" aria-pressed="true">
+        <div
+          id="tag-filter"
+          class="mt-8 flex flex-wrap justify-center gap-x-7 gap-y-3 text-lg sm:mt-10"
+          role="group"
+          aria-label="Filter posts by tag"
+          hidden
+        >
+          <button type="button" class={filterButton} data-tag="" aria-pressed="true">
             all posts
           </button>
           {tags.map((tag) => (
-            <button type="button" class={chip} data-tag={tag} aria-pressed="false">
+            <button type="button" class={filterButton} data-tag={tag} aria-pressed="false">
               {tag}
             </button>
           ))}
@@ -42,7 +55,7 @@ const chip =
     <!-- Rules go between visible posts only, so filtering never leaves a stray line. -->
     <div
       id="post-list"
-      class="mt-4 sm:mt-6 [&>article]:border-accent/40 [&>article:not([hidden])~article:not([hidden])]:border-t"
+      class="mt-6 sm:mt-10 [&>article]:border-accent/40 [&>article:not([hidden])~article:not([hidden])]:border-t"
     >
       {posts.map((post) => <PostListItem post={post} />)}
     </div>
@@ -55,15 +68,15 @@ const chip =
   const posts = [...document.querySelectorAll<HTMLElement>('#post-list > article')];
 
   if (filter) {
-    const chips = [...filter.querySelectorAll<HTMLButtonElement>('button')];
-    const known = new Set(chips.map((chip) => chip.dataset.tag).filter(Boolean));
+    const buttons = [...filter.querySelectorAll<HTMLButtonElement>('button')];
+    const known = new Set(buttons.map((button) => button.dataset.tag).filter(Boolean));
     // Selected tags live in the URL (?tag=A&tag=B) so a filtered view can be shared.
     const selected = new Set(new URL(location.href).searchParams.getAll('tag').filter((tag) => known.has(tag)));
 
     const apply = () => {
-      for (const chip of chips) {
-        const tag = chip.dataset.tag!;
-        chip.setAttribute('aria-pressed', String(tag ? selected.has(tag) : selected.size === 0));
+      for (const button of buttons) {
+        const tag = button.dataset.tag!;
+        button.setAttribute('aria-pressed', String(tag ? selected.has(tag) : selected.size === 0));
       }
       let shown = 0;
       for (const post of posts) {
@@ -80,9 +93,9 @@ const chip =
     };
 
     filter.addEventListener('click', (event) => {
-      const chip = (event.target as Element).closest<HTMLButtonElement>('button');
-      if (!chip) return;
-      const tag = chip.dataset.tag;
+      const button = (event.target as Element).closest<HTMLButtonElement>('button');
+      if (!button) return;
+      const tag = button.dataset.tag;
       if (!tag) selected.clear();
       else if (!selected.delete(tag)) selected.add(tag);
       apply();

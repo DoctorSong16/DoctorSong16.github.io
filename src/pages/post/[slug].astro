@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import TitleRule from '../../components/TitleRule.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatDate, getPublishedPosts } from '../../lib/posts';
 
@@ -38,8 +39,7 @@ const { Content } = await render(post);
         </button>
         <span id="copy-status" class="sr-only" aria-live="polite"></span>
       </div>
-      <!-- The site's one ornament: a short sage rule between the title and the text. -->
-      <div aria-hidden="true" class="mx-auto mt-8 h-px w-12 bg-accent/60 sm:mt-10"></div>
+      <TitleRule class="mt-8 sm:mt-10" />
     </header>
     <div class="post-body">
       <Content />
