@@ -65,9 +65,39 @@ body {
   border-radius: 4px;
 }
 
-/* When hovering over a link, change the color */
+/* Links fade slowly to terracotta on hover. */
+a {
+  transition:
+    color 400ms ease-out,
+    text-decoration-color 400ms ease-out;
+}
 a:hover {
   color: var(--link-color);
+}
+
+/*
+  Pages crossfade into each other (cross-document view transitions). The nav is named
+  so it stays still while only the page below it fades. Reduced motion: instant.
+*/
+@view-transition {
+  navigation: auto;
+}
+nav {
+  view-transition-name: site-nav;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 350ms;
+  animation-timing-function: ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  a {
+    transition: none;
+  }
+  @view-transition {
+    navigation: none;
+  }
 }
 
 /* Rendered markdown in the home page intro (src/content/pages/home.md). */
@@ -109,7 +139,7 @@ a:hover {
 
   /* The post title is the page's h1, so even a markdown "# heading" stays below it. */
   .post-body :is(h1, h2, h3, h4, h5, h6) {
-    @apply mt-[1.8em] mb-[0.5em] text-left leading-snug font-semibold text-balance hyphens-manual text-foreground;
+    @apply mt-[1.8em] mb-[0.5em] text-left leading-snug font-medium text-balance hyphens-manual text-foreground;
   }
   .post-body h1 {
     @apply text-[1.6em];

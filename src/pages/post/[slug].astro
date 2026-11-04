@@ -1,6 +1,5 @@
 ---
 import { render } from 'astro:content';
-import LinkIcon from '../../components/LinkIcon.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatDate, getPublishedPosts } from '../../lib/posts';
 
@@ -17,7 +16,7 @@ const { Content } = await render(post);
   <!-- 44rem keeps 20px body lines around 65-70 characters, a comfortable reading length. -->
   <article class="mx-auto max-w-[44rem] px-5 pb-20 text-foreground sm:px-6">
     <header class="mt-10 mb-10 text-center sm:mt-16 sm:mb-14">
-      <h1 class="text-4xl leading-tight font-medium text-balance sm:text-5xl">{post.data.title}</h1>
+      <h1 class="text-4xl leading-tight text-balance sm:text-5xl">{post.data.title}</h1>
       <div class="mt-5 flex items-center justify-center gap-3 text-base text-muted">
         <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>
         <span aria-hidden="true">·</span>
@@ -29,22 +28,18 @@ const { Content } = await render(post);
             </>
           )
         }
-        <span class="relative inline-flex">
-          <button
-            id="copy-link"
-            type="button"
-            class="h-8 w-8 cursor-pointer rounded-full border border-current/30 p-1.5 transition-colors hover:border-current hover:text-foreground"
-            aria-label="Copy link to this post"
-            title="Copy link to this post"
-          >
-            <LinkIcon class="h-full w-full" />
-          </button>
-          <span
-            id="copy-status"
-            class="absolute top-full right-0 mt-1 text-sm whitespace-nowrap"
-            aria-live="polite"></span>
-        </span>
+        <!-- Plain text like the date and tags beside it; it reads "link copied" for a moment after a click. -->
+        <button
+          id="copy-link"
+          type="button"
+          class="cursor-pointer transition-colors duration-400 ease-out hover:text-(--link-color) motion-reduce:transition-none"
+        >
+          copy link
+        </button>
+        <span id="copy-status" class="sr-only" aria-live="polite"></span>
       </div>
+      <!-- The site's one ornament: a short sage rule between the title and the text. -->
+      <div aria-hidden="true" class="mx-auto mt-8 h-px w-12 bg-accent/60 sm:mt-10"></div>
     </header>
     <div class="post-body">
       <Content />
@@ -58,13 +53,18 @@ const { Content } = await render(post);
   let timer: ReturnType<typeof setTimeout>;
 
   button.addEventListener('click', async () => {
+    let message: string;
     try {
       await navigator.clipboard.writeText(window.location.href);
-      status.textContent = 'link copied!';
+      message = 'link copied';
     } catch {
-      status.textContent = "couldn't copy the link";
+      message = "couldn't copy";
     }
+    button.textContent = status.textContent = message;
     clearTimeout(timer);
-    timer = setTimeout(() => (status.textContent = ''), 2000);
+    timer = setTimeout(() => {
+      button.textContent = 'copy link';
+      status.textContent = '';
+    }, 2000);
   });
 </script>

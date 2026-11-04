@@ -43,9 +43,12 @@ const ogImage = new URL('/opengraph-image.jpeg', Astro.site);
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
   </head>
-  <body class="bg-background antialiased">
+  <!-- Nav, page, footer: the page takes the spare height so the footer always sits at the bottom. -->
+  <body class="grid min-h-dvh grid-rows-[auto_1fr_auto] bg-background antialiased">
     <Navbar />
-    <slot />
-    <Footer name="dundu does stuff" since={2024} />
+    <div>
+      <slot />
+    </div>
+    <Footer name="dundu" />
   </body>
 </html>
