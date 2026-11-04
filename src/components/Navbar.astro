@@ -1,4 +1,6 @@
 ---
+import { currentUnderline } from '../lib/underline';
+
 const menuItems = [
   { name: 'Home', path: '/' },
   { name: 'Blog', path: '/post' },
@@ -15,10 +17,6 @@ const isCurrent = (path: string) =>
 // --delay; closing has no delay so everything leaves together. Respects reduced motion.
 const motion =
   'duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-open/menu:[transition-delay:var(--delay,0ms)] motion-reduce:transition-none';
-// A thin sage underline that grows out from the centre: drawn in full under the current
-// page, and drawn slowly (at half strength) under a link while it's hovered.
-const underline =
-  'relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:scale-x-0 after:bg-accent/60 after:transition-[scale,background-color] after:duration-500 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:after:scale-x-100 aria-[current=page]:after:scale-x-100 aria-[current=page]:after:bg-accent motion-reduce:after:transition-none';
 const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current ${motion} transition-[translate,rotate,scale,opacity]`;
 ---
 
@@ -48,7 +46,7 @@ const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current $
 
     <!--
       On desktop, a plain row of links. Hover is a slow colour fade; the current page
-      is underlined (see `underline` above).
+      is underlined (see src/lib/underline.ts).
     -->
     <div class="hidden md:block">
       <ul class="flex gap-8">
@@ -57,7 +55,7 @@ const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current $
             <li>
               <a
                 href={item.path}
-                class={`block py-1 text-xl ${underline}`}
+                class={`block py-1 text-[1.375rem] ${currentUnderline}`}
                 aria-current={isCurrent(item.path) ? 'page' : undefined}
               >
                 {item.name.toLowerCase()}
@@ -87,7 +85,7 @@ const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current $
             >
               <a
                 href={item.path}
-                class={`my-2 inline-block text-2xl ${underline}`}
+                class={`my-2 inline-block text-2xl ${currentUnderline}`}
                 aria-current={isCurrent(item.path) ? 'page' : undefined}
               >
                 {item.name.toLowerCase()}
