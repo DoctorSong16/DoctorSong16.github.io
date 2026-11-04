@@ -49,7 +49,7 @@ const sources = await Promise.all(
 const fallback = sources.at(-1)!.stacked;
 ---
 
-<section class="@container mx-auto max-w-5xl px-4 pt-2 pb-12 sm:px-8 lg:py-12">
+<section class="@container mx-auto max-w-5xl px-4 pt-6 pb-12 sm:px-8 sm:pt-10 lg:py-16">
   <div class="mx-auto grid max-w-2xl gap-8 lg:max-w-none lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-[5cqi]">
     <!--
       Side by side, the photo is at least 3:4 and otherwise stretches to the text's
@@ -86,7 +86,7 @@ const fallback = sources.at(-1)!.stacked;
         width={stacked.width}
         height={stacked.height}
         alt={photoAlt ?? ''}
-        class="h-auto w-full rounded-[24px] object-cover drop-shadow-2xl lg:absolute lg:inset-0 lg:h-full"
+        class="h-auto w-full rounded-[24px] object-cover ring-1 ring-accent/20 lg:absolute lg:inset-0 lg:h-full"
         loading="eager"
         fetchpriority="high"
         decoding="async"

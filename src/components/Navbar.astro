@@ -15,13 +15,18 @@ const isCurrent = (path: string) =>
 // --delay; closing has no delay so everything leaves together. Respects reduced motion.
 const motion =
   'duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-open/menu:[transition-delay:var(--delay,0ms)] motion-reduce:transition-none';
+// A thin sage underline that grows out from the centre: drawn in full under the current
+// page, and drawn slowly (at half strength) under a link while it's hovered.
+const underline =
+  'relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:scale-x-0 after:bg-accent/60 after:transition-[scale,background-color] after:duration-500 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:after:scale-x-100 aria-[current=page]:after:scale-x-100 aria-[current=page]:after:bg-accent motion-reduce:after:transition-none';
 const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current ${motion} transition-[translate,rotate,scale,opacity]`;
 ---
 
 <nav class="bg-background text-foreground">
-  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between p-4">
-    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <span class="self-center whitespace-nowrap text-4xl font-semibold">dundu does stuff</span>
+  <!-- Same width and side padding as the home hero, so every page sits on one axis. -->
+  <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between px-4 py-5 sm:px-8 sm:py-8">
+    <a href="/" class="whitespace-nowrap text-3xl">
+      dundu does stuff
     </a>
 
     <!--
@@ -41,15 +46,18 @@ const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current $
       <span aria-hidden="true" class={`${bar} translate-y-[7px] group-aria-expanded:translate-y-0 group-aria-expanded:-rotate-45`}></span>
     </button>
 
-    <!-- On desktop, we just use a navbar. -->
-    <div class="hidden w-full md:block md:w-auto">
-      <ul class="mt-4 flex flex-col rounded-lg border p-4 font-medium md:mt-0 md:flex-row md:space-x-4 md:border-0 md:p-0 rtl:space-x-reverse">
+    <!--
+      On desktop, a plain row of links. Hover is a slow colour fade; the current page
+      is underlined (see `underline` above).
+    -->
+    <div class="hidden md:block">
+      <ul class="flex gap-8">
         {
           menuItems.map((item) => (
-            <li class="rounded-md bg-foreground/0 px-4 py-2 shadow-[inset_0_2px_4px_0_transparent] transition-[background-color,box-shadow] duration-100 ease-out hover:bg-foreground/10 hover:shadow-[inset_0_2px_4px_0_rgb(0_0_0/0.15)] motion-reduce:transition-none dark:hover:bg-foreground/15 dark:hover:shadow-[inset_0_2px_6px_0_rgb(0_0_0/0.6)]">
+            <li>
               <a
                 href={item.path}
-                class="block rounded-sm px-3 py-2 text-2xl md:p-0"
+                class={`block py-1 text-xl ${underline}`}
                 aria-current={isCurrent(item.path) ? 'page' : undefined}
               >
                 {item.name.toLowerCase()}
@@ -70,16 +78,16 @@ const bar = `absolute inset-x-2.5 top-1/2 -mt-px h-0.5 rounded-full bg-current $
       class={`group/menu grid w-full grid-rows-[0fr] opacity-0 data-open:grid-rows-[1fr] data-open:opacity-100 md:hidden ${motion} transition-[grid-template-rows,opacity]`}
       inert
     >
-      <ul class="flex min-h-0 flex-col overflow-hidden rounded-lg font-medium shadow-inner">
+      <ul class="flex min-h-0 flex-col overflow-hidden">
         {
           menuItems.map((item, i) => (
             <li
-              class={`-translate-y-2 opacity-0 first:mt-4 first:pt-4 last:pb-4 group-data-open/menu:translate-y-0 group-data-open/menu:opacity-100 ${motion} transition-[translate,opacity]`}
+              class={`-translate-y-2 opacity-0 first:mt-4 last:pb-2 group-data-open/menu:translate-y-0 group-data-open/menu:opacity-100 ${motion} transition-[translate,opacity]`}
               style={`--delay: ${60 + i * 40}ms`}
             >
               <a
                 href={item.path}
-                class="mx-4 block rounded-sm px-3 py-2 text-2xl hover:font-semibold"
+                class={`my-2 inline-block text-2xl ${underline}`}
                 aria-current={isCurrent(item.path) ? 'page' : undefined}
               >
                 {item.name.toLowerCase()}
