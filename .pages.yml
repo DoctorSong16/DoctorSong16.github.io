@@ -95,12 +95,12 @@ content:
       # file). Every tag used by a published post becomes a filter on the blog page.
       - name: tags
         label: Tags
-        description: Pick one or more. To add a new tag, edit the list in Settings (.pages.yml).
+        description: Pick one or more. To add a new tag, edit the list in Settings (.pages.yml), in lower case.
         type: select
-        default: [General]
+        default: [general]
         options:
           multiple: true
-          values: [General]
+          values: [general]
       - name: summary
         label: Summary
         description: One or two sentences shown on the blog page.
