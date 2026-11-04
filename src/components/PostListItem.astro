@@ -8,11 +8,14 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, date, summary, cover, coverAlt } = post.data;
+const { title, date, summary, cover, coverAlt, tags } = post.data;
 ---
 
-<!-- The title link stretches over the whole item (after:absolute), so the row is one big click target. -->
-<article class="group relative flex items-start gap-5 py-7 sm:gap-8 sm:py-9">
+<!--
+  The title link stretches over the whole item (after:absolute), so the row is one big click target.
+  data-tags is read by the tag filter on the blog page.
+-->
+<article data-tags={JSON.stringify(tags)} class="group relative flex items-start gap-5 py-7 sm:gap-8 sm:py-9">
   <div class="min-w-0 flex-1">
     <h2 class="text-2xl leading-snug font-semibold text-balance sm:text-3xl">
       <a href={`/post/${post.id}`} class="after:absolute after:inset-0 group-hover:text-(--link-color)">
