@@ -97,10 +97,10 @@ content:
         label: Tags
         description: Pick one or more. To add a new tag, edit the list in Settings (.pages.yml), in lower case.
         type: select
-        default: [general]
+        default: [life]
         options:
           multiple: true
-          values: [general]
+          values: [life, culture, books, science]
       - name: summary
         label: Summary
         description: One or two sentences shown on the blog page.
