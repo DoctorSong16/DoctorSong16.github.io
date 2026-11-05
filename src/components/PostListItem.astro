@@ -22,10 +22,12 @@ const { title, date, summary, cover, coverAlt, tags } = post.data;
         {title}
       </a>
     </h2>
-    <p class="mt-2 flex flex-wrap gap-x-2 text-base whitespace-nowrap text-muted">
-      <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date)}</time>
-      <span aria-hidden="true">·</span>
-      <span>{readingMinutes(post.body)} min read</span>
+    <!-- Dot-separated; see .dot-list in global.css for how a wrapped line drops its dot. -->
+    <p class="meta-text mt-2 overflow-hidden text-base whitespace-nowrap text-muted">
+      <span class="dot-list">
+        <time datetime={date.toISOString().slice(0, 10)}>{formatDate(date)}</time>
+        <span>{readingMinutes(post.body)} min read</span>
+      </span>
     </p>
     {summary && <p class="mt-2.5 text-lg leading-relaxed text-pretty text-(--text-soft) sm:text-xl">{summary}</p>}
   </div>

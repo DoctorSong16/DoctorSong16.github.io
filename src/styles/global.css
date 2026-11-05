@@ -55,6 +55,40 @@ body {
   font-family: 'Ibarra Real Nova Variable', serif;
 }
 
+/*
+  Small supporting text: dates, tags, reading time, copy link, the footer. Ibarra's fine
+  hairline strokes thin out at small sizes, and more so under the body's antialiased
+  smoothing, so this text gets a medium weight, a hair of letter-spacing, and the
+  browser's default (fuller) smoothing. Colour stays muted; only the weight changes.
+*/
+@utility meta-text {
+  font-weight: 500;
+  letter-spacing: 0.015em;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+}
+
+/*
+  A row of items separated by "·" that never leaves a dot dangling when it wraps. Each
+  item draws its dot before itself, and the row is pulled left by one dot's width, so
+  the first item's dot, and the dot of any item that wraps to the start of a line, sit
+  outside the box. The parent clips them (overflow-hidden). The empty alt text after
+  the slash keeps screen readers from reading the dots.
+*/
+@layer components {
+  .dot-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -1.1em;
+  }
+  .dot-list > ::before {
+    content: '·' / '';
+    display: inline-block;
+    width: 1.1em;
+    text-align: center;
+  }
+}
+
 ::selection {
   background: var(--selection);
 }

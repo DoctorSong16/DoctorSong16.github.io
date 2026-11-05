@@ -1,6 +1,5 @@
 ---
 import PostListItem from '../../components/PostListItem.astro';
-import TitleRule from '../../components/TitleRule.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getPublishedPosts } from '../../lib/posts';
 import { pressedUnderline } from '../../lib/underline';
@@ -20,10 +19,9 @@ const filterButton = `cursor-pointer text-muted transition-colors duration-400 e
 <BaseLayout title="Blog">
   <!-- Same 44rem column as the posts themselves. -->
   <main class="mx-auto max-w-[44rem] px-5 pb-12 sm:px-6">
-    <!-- Laid out like a post's header: centred title, then the short sage rule. -->
+    <!-- Laid out like a post's header: a centred title. -->
     <header class="mt-10 text-center sm:mt-16">
       <h1 class="text-4xl leading-tight sm:text-5xl">Writing</h1>
-      <TitleRule class="mt-8 sm:mt-10" />
     </header>
 
     <!--
@@ -34,7 +32,7 @@ const filterButton = `cursor-pointer text-muted transition-colors duration-400 e
       tags.length > 0 && (
         <div
           id="tag-filter"
-          class="mt-8 flex flex-wrap justify-center gap-x-7 gap-y-3 text-lg sm:mt-10"
+          class="mt-6 flex flex-wrap justify-center gap-x-7 gap-y-3 text-lg sm:mt-8"
           role="group"
           aria-label="Filter posts by tag"
           hidden
