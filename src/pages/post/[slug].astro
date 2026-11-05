@@ -18,7 +18,7 @@ const { Content } = await render(post);
   <article class="mx-auto max-w-[44rem] px-5 pb-20 text-foreground sm:px-6">
     <header class="mt-10 mb-10 text-center sm:mt-16 sm:mb-14">
       <h1 class="text-4xl leading-tight text-balance sm:text-5xl">{post.data.title}</h1>
-      <div class="mt-5 flex items-center justify-center gap-3 text-base text-muted">
+      <div class="meta-text mt-5 flex items-center justify-center gap-3 text-base text-muted">
         <time datetime={post.data.date.toISOString().slice(0, 10)}>{formatDate(post.data.date)}</time>
         <span aria-hidden="true">·</span>
         {
